@@ -1,0 +1,68 @@
+{
+  "kind": "collectionType",
+  "collectionName": "airline_tickets",
+  "info": {
+    "singularName": "airline-ticket",
+    "pluralName": "airline-tickets",
+    "displayName": "AirlineTicket",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "airlineName": {
+      "type": "string"
+    },
+    "customerName": {
+      "type": "string"
+    },
+    "pnrNo": {
+      "type": "string"
+    },
+    "from": {
+      "type": "string"
+    },
+    "to": {
+      "type": "string"
+    },
+    "flightNo": {
+      "type": "string"
+    },
+    "flightFare": {
+      "type": "string"
+    },
+    "ticketFile": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "bookingRefNo": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "depDate": {
+      "type": "date"
+    },
+    "depTime": {
+      "type": "time"
+    },
+    "arrDate": {
+      "type": "date"
+    },
+    "arrTime": {
+      "type": "time"
+    },
+    "passangers": {
+      "type": "json"
+    }
+  }
+}
