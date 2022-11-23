@@ -1,0 +1,84 @@
+  // Core
+body {
+  .app-header {
+    height: $header-height;
+    display: flex;
+    flex-direction: row;
+  }
+
+
+  .app-header-toolbar {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    padding-left: ($spacer);
+    padding-right: ($spacer);
+
+    .btn-inverse:hover {
+      background: rgba(255,255,255,.07);
+    }
+  }
+
+
+  .app-logo-img {
+    width: 65px;
+    height: 65px;
+    // border-radius: 50%;
+  }
+
+  .app-logo-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .app-logo-btn {
+    padding: $spacer / 2;
+    // background: rgba(255,255,255,.05);
+
+    &:hover {
+      background: rgba(255,255,255,.08);
+    }
+  }
+
+  .app-logo-link {
+    text-decoration: none;
+    @include media-breakpoint-up(lg) {
+      margin-top: ($spacer * 2);
+    }
+    @include media-breakpoint-down(lg) {
+      margin-right: $spacer;
+    }
+  }
+
+  .app-logo-text {
+    font-size: $font-size-base;
+    font-weight: bold;
+    width: auto;
+    display: block;
+  }
+
+  .toggle-sidebar-btn-mobile {
+    display: none;
+
+    @include media-breakpoint-down(md) {
+      display: block;
+    }
+  }
+}
+
+
+  @media only screen and (max-width: 1024px) {
+  .app-logo-img {
+    width: 180px !important;
+    height: 78px !important;
+  }
+
+  }
+  @media only screen and (max-width: 320px) {
+    .app-logo-img {
+      width: 128px !important;
+      height: 62px !important;
+    }
+  
+    }
