@@ -7,7 +7,7 @@ import { IconButton, Box, Tooltip } from '@material-ui/core';
 
 import { connect } from 'react-redux';
 
-import Logo from '../../assets/images/AnjaliEnterpriselogo-removebg-preview.png';
+import Logo from '../../assets/images/BhavnaToursLogo.png';
 
 import { setSidebarToggleMobile } from '../../reducers/ThemeOptions';
 

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 import { IconButton, Box } from '@material-ui/core';
-import Logo from '../../assets/images/AnjaliEnterpriselogo-removebg-preview.png';
+import Logo from '../../assets/images/BhavnaToursLogo.png';
 
 const HeaderLogo = props => {
   return (

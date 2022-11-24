@@ -129,9 +129,10 @@ export default function Customer() {
   }, []);
 
   const callAPI = () => {
-    fetch('https://api.anjalienterprises.co/admin1/customer').then(response => response.json())
+    fetch('http://localhost:1337/api/airline-tickets').then(response => response.json())
       .then(data => {
-        setCustomer(data['customer']);
+        console.log('data: ', data);
+        setCustomer(data['data']);
         setloading(false);
       })
       .catch((error) => {
@@ -157,17 +158,16 @@ export default function Customer() {
 
   const onAlertActionClick = (value) => {
     if (value) {
-      const finalData = new FormData();
-      finalData.append("id", selectedId);
-      finalData.append("isDelete", "Yes");
+      // const finalData = new FormData();
+      // finalData.append("id", selectedId);
+      // finalData.append("isDelete", "Yes");
 
       const requestOptions = {
-        method: 'POST',
-        body: finalData
+        method: 'DELETE',
       };
-      fetch('https://api.anjalienterprises.co/admin1/deletecustomer', requestOptions).then(response => response.json())
+      fetch(`http://localhost:1337/api/airline-tickets/${selectedId}`, requestOptions).then(response => response.json())
         .then(data => {
-          console.log('data: ', data);
+         
           if (data.status) {
             callAPI();
             setshowComponent(false);
@@ -194,67 +194,79 @@ export default function Customer() {
         add={true}
         route='/addcustomer'
       />
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="custom pagination table">
-            <TableHead>
-              <TableRow>
-              <TableCell >Name</TableCell>
-                <TableCell >Address</TableCell>
-                <TableCell >Phone</TableCell>
-                <TableCell >Email</TableCell>
-                <TableCell >Gst No.</TableCell>
-                <TableCell >Actions</TableCell>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="custom pagination table">
+          <TableHead>
+            <TableRow>
+              <TableCell >Air Line</TableCell>
+              <TableCell >Customer Name</TableCell>
+              <TableCell >PNR No.</TableCell>
+              <TableCell >From</TableCell>
+              <TableCell >Depature Date</TableCell>
+              <TableCell >Depature Time</TableCell>
+              <TableCell >To</TableCell>
+              <TableCell >Arrival Date</TableCell>
+              <TableCell >Arrival Time</TableCell>
+              <TableCell >Flight No.</TableCell>
+              <TableCell >Flight Fare</TableCell>
+              <TableCell >Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {(rowsPerPage > 0
+              ? customer.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : customer
+            ).map(row => (
+              <TableRow key={row.id}>
+                <TableCell>{row.attributes.airlineName}</TableCell>
+                <TableCell>{row.attributes.customerName}</TableCell>
+                <TableCell>{row.attributes.pnrNo}</TableCell>
+                <TableCell>{row.attributes.from}</TableCell>
+                <TableCell>{row.attributes.depDate}</TableCell>
+                <TableCell>{row.attributes.depTime}</TableCell>
+                <TableCell>{row.attributes.to}</TableCell>
+                <TableCell>{row.attributes.arrDate}</TableCell>
+                <TableCell>{row.attributes.arrTime}</TableCell>
+                <TableCell>{row.attributes.flightNo}</TableCell>
+                <TableCell>{row.attributes.flightFare}</TableCell>
+                <TableCell>
+                  <Box>
+                    <div className='d-flex'>
+                      <FontAwesomeIcon icon={['fas', 'pen']} style={{ fontSize: "15px", cursor: "pointer", color: "#5383ff" }} onClick={() => history.push({ pathname: '/editcustomer', state: row })} />
+                      <div className='vertical-divider'></div>
+                      <FontAwesomeIcon icon={['fas', 'trash']} style={{ fontSize: "15px", cursor: "pointer", color: "#f83245" }} onClick={() => { onDeleteButtonClick(true); setSelectedId(row.id) }} />
+                    </div>
+                  </Box>
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {(rowsPerPage > 0
-                ? customer.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                : customer
-              ).map(row => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.address}</TableCell>
-                  <TableCell>{row.phone}</TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>{row.gstno}</TableCell>
-                  <TableCell>
-                    <Box>
-                      <div className='d-flex'>
-                        <FontAwesomeIcon icon={['fas', 'pen']} style={{ fontSize: "15px", cursor: "pointer", color: "#5383ff" }} onClick={() => history.push({ pathname: '/editcustomer', state: row })} />
-                        <div className='vertical-divider'></div>
-                        <FontAwesomeIcon icon={['fas', 'trash']} style={{ fontSize: "15px", cursor: "pointer", color: "#f83245" }} onClick={() => { onDeleteButtonClick(true); setSelectedId(row.id) }} />
-                      </div>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))}
+            ))}
 
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                  colSpan={6}
-                  count={customer.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  SelectProps={{
-                    inputProps: { 'aria-label': 'rows per page' },
-                    native: true
-                  }}
-                  onChangePage={handleChangePage}
-                  onChangeRowsPerPage={handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActions}
-                />
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={12} />
               </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
+            )}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                colSpan={12}
+                count={customer.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: { 'aria-label': 'rows per page' },
+                  native: true
+                }}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
       {
         showComponent ?
           <AlertDialog open={showComponent} setopen={onAlertActionClick}></AlertDialog>

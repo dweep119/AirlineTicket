@@ -5,7 +5,17 @@ import Grid from '@material-ui/core/Grid';
 import { useToasts } from 'react-toast-notifications';
 import { css } from "@emotion/react";
 import HashLoader from "react-spinners/HashLoader";
-import validator from 'validator'
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 import {
     Divider,
     Button,
@@ -13,6 +23,7 @@ import {
 } from '@material-ui/core';
 
 import { PageTitle } from '../layout-components';
+import moment from 'moment/moment';
 const override = css`
   display: block;
   margin: 0 auto;
@@ -47,98 +58,152 @@ export default function EditCustomer() {
     const location = useLocation();
     const history = useHistory();
     const [data, setData] = React.useState({});
+
+    const [airLine, setAirLine] = React.useState('');
+    const [airLineErr, setAirLineErr] = useState(false);
+
     const [name, setName] = React.useState('');
     const [nameErr, setNameErr] = useState(false);
 
-    const [address, setAddress] = React.useState('');
-    const [addressErr, setAddressErr] = useState(false);
+    const [pnr, setPnr] = React.useState('');
+    const [pnrErr, setPnrErr] = useState(false);
 
-    const [phone, setPhone] = React.useState('');
-    const [phoneErr, setphoneErr] = useState(false);
+    const [from, setFrom] = React.useState('');
+    const [fromErr, setFromErr] = useState(false);
 
-    const [email, setEmail] = React.useState('');
-    const [emailErr, setemailErr] = useState(false);
+    const [depDate, setDepDate] = React.useState(new Date());
 
-    const [gstno, setGstNo] = React.useState('');
+    const [depTime, setDepTime] = React.useState('');
+
+    const [to, setTo] = React.useState('');
+    const [toErr, setToErr] = useState(false);
+
+    const [arrDate, setArrDate] = React.useState(new Date());
+
+    const [arrTime, setArrTime] = React.useState('');
+
+    const [flightNo, setFlightNo] = React.useState('');
+
+    const [flightFare, setFlightFare] = React.useState('');
+    const [flightFareErr, setFlightFareErr] = useState(false);
+
     const [loading, setloading] = useState(true);
     let color = "#36373b";
     const { addToast } = useToasts();
 
+    const handleAirLineChange = (date) => {
+        setAirLine(date);
+        setAirLineErr(false);
+    };
+    const handleDepatureDateChange = (date) => {
+        setDepDate(date);
+    };
+    const handleDepatureTimeChange = (date) => {
+        setDepTime(date);
+    };
+    const handleArrivalDateChange = (date) => {
+        setArrDate(date);
+    };
+    const handleArrivalTimeChange = (date) => {
+        setArrTime(date);
+    };
+
 
     useEffect(() => {
-        setName(location.state.name);
-        setAddress(location.state.address);
-        setPhone(location.state.phone);
-        setEmail(location.state.email);
-        setGstNo(location.state.gstno);
+        const today = moment().format('YYYY-MM-DD');
+
+        setAirLine(location.state.attributes.airlineName);
+        setName(location.state.attributes.customerName);
+        setPnr(location.state.attributes.pnrNo);
+        setFrom(location.state.attributes.from);
+        setDepDate(location.state.attributes.depDate);
+        setDepTime(new Date(`${today}T${location.state.attributes.depTime}`));
+        setTo(location.state.attributes.to);
+        setArrDate(location.state.attributes.arrDate);
+        setArrTime(new Date(`${today}T${location.state.attributes.arrTime}`));
+        setFlightNo(location.state.attributes.flightNo);
+        setFlightFare(location.state.attributes.flightFare);
         setData(location.state);
         setloading(false);
-        console.log('location: ', location);
+        console.log('============location: ', location);
     }, [location]);
 
     const onSaveBtnClick = () => {
+        if (airLine === '') {
+            setAirLineErr(true)
+        }
         if (name === '') {
             setNameErr(true)
         }
-        if (address === '') {
-            setAddressErr(true)
+        if (pnr === '') {
+            setPnrErr(true)
         }
-        if (phone === '') {
-            setphoneErr(true)
+        if (from === '') {
+            setFromErr(true)
         }
-        if (email === '') {
-            setemailErr(true)
+        if (to === '') {
+            setToErr(true)
         }
-        if (email === '' || phone === '' || name ==='' || address === '') {
+        if (flightFare === '') {
+            setFlightFareErr(true)
+        }
+        if (airLine === '' || pnr === '' || name === '' || from === '' || to === '' || flightFare === '') {
             addToast('Please complete all required fields', {
                 appearance: 'error',
                 autoDismiss: true,
             });
         }
         else {
-            if (validator.isEmail(email)) {
-                const finalData = new FormData();
-                finalData.append("id", data.id);
-                finalData.append("name", name);
-                finalData.append("address", address);
-                finalData.append("phone", phone);
-                finalData.append("email", email);
-                finalData.append("gstno", gstno);
-                const requestOptions = {
-                    method: 'POST',
-                    body: finalData
-                };
-                console.log('requestOptions: ', requestOptions);
 
-                fetch('https://api.anjalienterprises.co/admin1/editcustomer', requestOptions).then(response => response.json())
-                    .then(data => {
-                        console.log('data: ', data);
+            const finalData = {};
+            let finalDepTime = moment(depTime).format("HH:mm:ss.SSS")
+            let finalArrTime = moment(arrTime).format("HH:mm:ss.SSS")
 
-                        if (data.status) {
-                            addToast(data.message, {
-                                appearance: 'success',
-                                autoDismiss: true,
-                            })
-                            history.push('/customer')
-                        } else {
-                            addToast(data.message, {
-                                appearance: 'error',
-                                autoDismiss: true,
-                            })
-                        }
-                    })
-                    .catch((error) => {
-                        console.log('error: ', error);
-                        // onSaveBtnClick();
-                    });
 
-            } else {
-                addToast('Enter valid Email', {
-                    appearance: 'error',
-                    autoDismiss: true,
+            finalData["airlineName"] = airLine;
+            finalData["customerName"] = name;
+            finalData["pnrNo"] = pnr;
+            finalData["from"] = from;
+            finalData["depDate"] = depDate;
+            finalData["depTime"] = finalDepTime;
+            finalData["arrDate"] = arrDate;
+            finalData["arrTime"] = finalArrTime;
+            finalData["flightNo"] = flightNo;
+            finalData["flightFare"] = flightFare;
+            const requestOptions = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${token.jwt}`
+                },
+                body: JSON.stringify({ "data": finalData })
+            };
+            console.log('requestOptions: ', requestOptions);
+
+            fetch(`http://localhost:1337/api/airline-tickets/${data.id}`, requestOptions).then(response => response.json())
+                .then(data => {
+                    console.log('data: ', data);
+
+                    if (data.status) {
+                        addToast(data.message, {
+                            appearance: 'success',
+                            autoDismiss: true,
+                        })
+                        history.push('/customer')
+                    } else {
+                        addToast(data.message, {
+                            appearance: 'error',
+                            autoDismiss: true,
+                        })
+                    }
                 })
-            }
+                .catch((error) => {
+                    console.log('error: ', error);
+                    // onSaveBtnClick();
+                });
+
         }
+
     }
     if (loading)
         return <div className='loaderClass'><HashLoader color={color} loading={loading} css={override} size={100} /></div>
@@ -151,6 +216,36 @@ export default function EditCustomer() {
             />
             <div className={classes.root}>
                 <Grid container item spacing={3} sm={12} md={6} className={classes.paper}>
+                    <div className="editPageDesign mt-3">
+                        <Grid item sm={12} md={3}>
+                            {/* <Paper className={classes.paper}> */}
+                            <div>
+                                <label>Air Line</label>
+                            </div>
+                            {/* </Paper> */}
+                        </Grid>
+
+                        <Grid item sm={12} md={9}>
+                            <FormControl variant="outlined" className={classes.formControl} fullWidth>
+                                <InputLabel id="demo-simple-select-outlined-label" required error={airLineErr}>Air Line</InputLabel>
+                                <Select
+                                    error={airLineErr}
+                                    labelId="demo-simple-select-outlined-label"
+                                    id="demo-simple-select-outlined"
+                                    value={airLine}
+                                    onChange={handleAirLineChange}
+                                    label="Air Line"
+                                >
+                                    <MenuItem value={'SpiceJet'}>SpiceJet</MenuItem>
+                                    <MenuItem value={'Indigo'}>Indigo</MenuItem>
+                                    <MenuItem value={'AirAsia'}>AirAsia</MenuItem>
+                                    <MenuItem value={'Vistara'}>Vistara</MenuItem>
+                                    <MenuItem value={'GoFirst'}>GoFirst</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+
+                    </div>
 
                     <div className="editPageDesign mt-3">
                         <Grid item sm={12} md={3}>
@@ -175,7 +270,7 @@ export default function EditCustomer() {
                     <div className="editPageDesign mt-3">
                         <Grid item sm={12} md={3}>
                             <div>
-                                <label> Address </label>
+                                <label> PNR No. </label>
                             </div>
                         </Grid>
                         <Grid item sm={12} md={9}>
@@ -183,19 +278,19 @@ export default function EditCustomer() {
                                 required
                                 fullWidth
                                 className="m-2"
-                                label="Address"
+                                label="PNR No. "
                                 id="standard-required"
                                 variant="outlined"
-                                value={address}
-                                error={addressErr}
-                                onChange={e => { setAddress(e.target.value); setAddressErr(false); }}
+                                value={pnr}
+                                error={pnrErr}
+                                onChange={e => { setPnr(e.target.value); setPnrErr(false); }}
                             />
                         </Grid>
                     </div>
                     <div className="editPageDesign mt-3">
                         <Grid item sm={12} md={3}>
                             <div>
-                                <label> Phone </label>
+                                <label> From </label>
                             </div>
                         </Grid>
                         <Grid item sm={12} md={9}>
@@ -203,14 +298,14 @@ export default function EditCustomer() {
                                 required
                                 fullWidth
                                 className="m-2"
-                                label="Phone"
+                                label="From"
                                 id="standard-required"
                                 variant="outlined"
-                                value={phone}
-                                error={phoneErr}
+                                value={from}
+                                error={fromErr}
                                 onChange={(e) => {
-                                    setPhone(e.target.value);
-                                    setphoneErr(false);
+                                    setFrom(e.target.value);
+                                    setFromErr(false);
                                 }}
                             />
                         </Grid>
@@ -218,42 +313,153 @@ export default function EditCustomer() {
                     <div className="editPageDesign mt-3">
                         <Grid item sm={12} md={3}>
                             <div>
-                                <label> Email </label>
+                                <label>Depature Date</label>
+                            </div>
+                        </Grid>
+                        <Grid item sm={12} md={9}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    margin="normal"
+                                    id="date-picker-dialog"
+                                    label="Depature Date"
+                                    format="MM/dd/yyyy"
+                                    value={depDate}
+                                    onChange={handleDepatureDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Grid>
+                    </div>
+                    <div className="editPageDesign mt-3">
+                        <Grid item sm={12} md={3}>
+                            <div>
+                                <label>Depature Time</label>
+                            </div>
+                        </Grid>
+                        <Grid item sm={12} md={9}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardTimePicker
+                                    margin="normal"
+                                    id="time-picker"
+                                    // label="Depature Time"
+                                    value={depTime}
+                                    onChange={handleDepatureTimeChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change time',
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Grid>
+                    </div>
+                    <div className="editPageDesign mt-3">
+                        <Grid item sm={12} md={3}>
+                            <div>
+                                <label> To </label>
                             </div>
                         </Grid>
                         <Grid item sm={12} md={9}>
                             <TextField
+                                required
                                 fullWidth
                                 className="m-2"
-                                label="Email"
+                                label="To"
                                 id="standard-required"
                                 variant="outlined"
-                                value={email}
-                                error={emailErr}
-                                onChange={e => { setEmail(e.target.value); setemailErr(false) }}
+                                value={to}
+                                error={toErr}
+                                onChange={(e) => {
+                                    setTo(e.target.value);
+                                    setToErr(false);
+                                }}
                             />
                         </Grid>
                     </div>
                     <div className="editPageDesign mt-3">
                         <Grid item sm={12} md={3}>
                             <div>
-                                <label>Gst No.</label>
+                                <label>Arrival Date</label>
+                            </div>
+                        </Grid>
+                        <Grid item sm={12} md={9}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    margin="normal"
+                                    id="date-picker-dialog"
+                                    label="Arrival Date"
+                                    format="MM/dd/yyyy"
+                                    value={arrDate}
+                                    onChange={handleArrivalDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Grid>
+                    </div>
+                    <div className="editPageDesign mt-3">
+                        <Grid item sm={12} md={3}>
+                            <div>
+                                <label>Arrival Time</label>
+                            </div>
+                        </Grid>
+                        <Grid item sm={12} md={9}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardTimePicker
+                                    margin="normal"
+                                    id="time-picker"
+                                    // label="Arrival Time"
+                                    value={arrTime}
+                                    onChange={handleArrivalTimeChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change time',
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Grid>
+                    </div>
+                    <div className="editPageDesign mt-3">
+                        <Grid item sm={12} md={3}>
+                            <div>
+                                <label> Flight No. </label>
                             </div>
                         </Grid>
                         <Grid item sm={12} md={9}>
                             <TextField
                                 fullWidth
                                 className="m-2"
-                                label="Gst No."
+                                label="Flight No."
                                 id="standard-required"
                                 variant="outlined"
-                                value={gstno}
+                                value={flightNo}
+                                onChange={e => { setFlightNo(e.target.value) }}
+                            />
+                        </Grid>
+                    </div>
+                    <div className="editPageDesign mt-3">
+                        <Grid item sm={12} md={3}>
+                            <div>
+                                <label>Flight Fare</label>
+                            </div>
+                        </Grid>
+                        <Grid item sm={12} md={9}>
+                            <TextField
+                                fullWidth
+                                className="m-2"
+                                label="Flight Fare"
+                                id="standard-required"
+                                variant="outlined"
+                                value={flightFare}
+                                error={flightFareErr}
                                 onChange={(e) => {
-                                    setGstNo(e.target.value);
+                                    setFlightFare(e.target.value);
+                                    setFlightFareErr(false);
                                 }}
                             />
                         </Grid>
                     </div>
+
                     <Divider className="w-100 mt-5" />
                     <div style={{ textAlign: "right", width: '100%', marginTop: '10px' }}>
                         <Button variant="outlined" color="default" style={{ marginRight: '15px' }} onClick={() => history.push('/customer')}>Cancel</Button>
@@ -261,6 +467,8 @@ export default function EditCustomer() {
                     </div>
                 </Grid>
             </div>
+            <br></br>
         </Fragment>
+
     );
 }
