@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import Invoice from '../summaryComponents/Invoice'
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
@@ -112,6 +113,62 @@ export default function AddProduct() {
 
         setParentInputFieldsFinal([...parentInputFieldsFinal, newfield])
     }
+
+    // const onSubmitBtnClk = () => {
+    //     console.log(parentInputFieldsFinal)
+
+    //     if (selectedCustomer === '') {
+    //         setCustomerErr(true)
+    //     }
+    //     if (selectedProduct === '') {
+    //         setProductListErr(true)
+    //     }
+    //     if (parentInputFieldsFinal[0].inputFields[0].particulars === '') {
+    //         setQtyErr(true)
+    //     }
+    //     if (parentInputFieldsFinal[0].inputFields[0].unit === '') {
+    //         setUnitErr(true)
+    //     }
+    //     if ((selectedCustomer === '') || (selectedProduct === '') || parentInputFieldsFinal[0].inputFields[0].particulars === '' || parentInputFieldsFinal[0].inputFields[0].unit === '') {
+    //         addToast('Please complete all required fields', {
+    //             appearance: 'error',
+    //             autoDismiss: true,
+    //         });
+    //     }
+    //     else {
+    //         let currMonth = date.getMonth() + 1;
+    //         let appDate = `${date.getFullYear()}-${currMonth < 10 ? '0' + currMonth : currMonth}-${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}`
+    //         // eslint-disable-next-line
+    //         parentInputFieldsFinal.map((item, index) => {
+    //             if (item.inputFields.length > 1) {
+    //                 // eslint-disable-next-line
+    //                 let total = 0;
+    //                 // eslint-disable-next-line
+    //                 item.inputFields.map(itm => {
+    //                     total = total + Number(Number(itm.particulars).toFixed(2))
+    //                 });
+    //                 item.qty = total;
+    //             } else {
+    //                 item.qty = Number(Number(item.inputFields[0].particulars).toFixed(2))
+    //             }
+    //             item.productUnit = item.inputFields[0].unit
+    //         })
+    //         setInvoice({
+    //             ...invoice,
+    //             // "trans_date": newDat,
+    //             "customer_name": name,
+    //             "customer_address": selectedCustomer.address,
+    //             "customer_phone": selectedCustomer.phone,
+    //             "customer_email": selectedCustomer.email,
+    //             "customer_gstno": selectedCustomer.gstno,
+    //             "items": parentInputFieldsFinal
+    //         });
+
+    //         setshowPdf(true);
+    //         setfileName(name + '.pdf');
+    //     }
+
+    // }
 
     const onSaveBtnClick = () => {
         if (airLine === '') {
@@ -510,6 +567,7 @@ export default function AddProduct() {
                         </Grid>
                         <Divider className="w-100 mt-5" />
                         <div style={{ textAlign: "right", width: '100%', marginTop: '10px' }}>
+                            <Button variant="outlined" color="primary" >Generate PDF</Button>
                             <Button variant="outlined" color="default" style={{ marginRight: '15px' }} onClick={() => history.push('/customer')}>Cancel</Button>
                             <Button variant="outlined" color="primary" onClick={() => onSaveBtnClick()}>Save</Button>
                         </div>
