@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, Image, StyleSheet } from '@react-pdf/renderer';
-import logo from '../assets/images/AnjaliEnterpriselogo-removebg-preview.png';
+import logo from '../assets/images/BhavnaToursLogo.png';
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -55,10 +55,10 @@ const styles = StyleSheet.create({
 
 const BillFrom = ({ invoice }) => (
   <View style={styles.headerContainer}>
-    <div>
+    <div style={{margin:'auto'}}>
       <Image style={styles.logo} src={logo} />
     </div>
-    <div>
+    {/* <div>
       <Text style={styles.companyName}>ANJALI ENTERPRISE</Text>
       <Text style={styles.specialist}>Specialist in:</Text>
       <Text style={styles.details}>Maintenance and all kind of Pipeline & Fabication work.</Text>
@@ -67,7 +67,7 @@ const BillFrom = ({ invoice }) => (
     <div>
       <Text style={styles.companyAddress}>{"Address: "} {invoice.address}</Text>
       <Text style={styles.companyMobile}>{"Mobile: "}{invoice.phone}</Text>
-    </div>
+    </div> */}
     {/* <div style={styles.to_invoice}>
       <Text style={styles.billTo}>To:</Text>
       <Text >{invoice.customer_name}</Text>

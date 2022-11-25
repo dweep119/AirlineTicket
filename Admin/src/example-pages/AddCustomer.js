@@ -23,6 +23,9 @@ import {
 
 import { PageTitle } from '../layout-components';
 import moment from 'moment/moment';
+import Customer from './Customer';
+import { PDFViewer } from '@react-pdf/renderer'
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -77,10 +80,16 @@ export default function AddProduct() {
     const [flightFare, setFlightFare] = React.useState('');
     const [flightFareErr, setFlightFareErr] = useState(false);
 
+    const [showPdf, setshowPdf] = useState(false);
+    const [pdfpath, setPdfPath] = React.useState('');
+    const [counter, setcounter] = React.useState(0);
+    const [invoice, setInvoice] = useState({});
+    const [fileName, setfileName] = React.useState('');
+
     const [parentInputFieldsFinal, setParentInputFieldsFinal] = useState(
         [
             {
-                passengers: ''
+                name: ''
             }
         ])
 
@@ -108,69 +117,53 @@ export default function AddProduct() {
 
     const addProduct = () => {
         let newfield = {
-            passengers: ''
+            name: ''
         }
 
         setParentInputFieldsFinal([...parentInputFieldsFinal, newfield])
     }
+    const blobToFile = (theBlob, fileName) => {
+        const file = new File([theBlob], fileName, {
+            type: theBlob.type,
+        });
+        if (counter === 0) {
+            setcounter(counter + 1);
+            setPdfPath(file);
+        }
+    }
+    const onSubmitBtnClk = () => {
+        console.log(parentInputFieldsFinal)
 
-    // const onSubmitBtnClk = () => {
-    //     console.log(parentInputFieldsFinal)
+        
 
-    //     if (selectedCustomer === '') {
-    //         setCustomerErr(true)
-    //     }
-    //     if (selectedProduct === '') {
-    //         setProductListErr(true)
-    //     }
-    //     if (parentInputFieldsFinal[0].inputFields[0].particulars === '') {
-    //         setQtyErr(true)
-    //     }
-    //     if (parentInputFieldsFinal[0].inputFields[0].unit === '') {
-    //         setUnitErr(true)
-    //     }
-    //     if ((selectedCustomer === '') || (selectedProduct === '') || parentInputFieldsFinal[0].inputFields[0].particulars === '' || parentInputFieldsFinal[0].inputFields[0].unit === '') {
-    //         addToast('Please complete all required fields', {
-    //             appearance: 'error',
-    //             autoDismiss: true,
-    //         });
-    //     }
-    //     else {
-    //         let currMonth = date.getMonth() + 1;
-    //         let appDate = `${date.getFullYear()}-${currMonth < 10 ? '0' + currMonth : currMonth}-${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}`
-    //         // eslint-disable-next-line
-    //         parentInputFieldsFinal.map((item, index) => {
-    //             if (item.inputFields.length > 1) {
-    //                 // eslint-disable-next-line
-    //                 let total = 0;
-    //                 // eslint-disable-next-line
-    //                 item.inputFields.map(itm => {
-    //                     total = total + Number(Number(itm.particulars).toFixed(2))
-    //                 });
-    //                 item.qty = total;
-    //             } else {
-    //                 item.qty = Number(Number(item.inputFields[0].particulars).toFixed(2))
-    //             }
-    //             item.productUnit = item.inputFields[0].unit
-    //         })
-    //         setInvoice({
-    //             ...invoice,
-    //             // "trans_date": newDat,
-    //             "customer_name": name,
-    //             "customer_address": selectedCustomer.address,
-    //             "customer_phone": selectedCustomer.phone,
-    //             "customer_email": selectedCustomer.email,
-    //             "customer_gstno": selectedCustomer.gstno,
-    //             "items": parentInputFieldsFinal
-    //         });
+        setInvoice({
+            ...invoice,
+            // "trans_date": newDat,
+            "customer_name": name,
+            "customer_mobile": '1234567890',
+            "customer_email": 'email123@gmail.com',
+            "customer_airline": airLine,
+            "pnr": pnr,
+            "ref_no": 12345,
+            "booked": 'Sun, Aug. 14, 2022 13:07',
+            "status": 'Confirmed',
+            "from": from,
+            "to": to,
+            "flightNo": flightNo,
+            "arrDate": 'Sun, Aug. 14, 2022 13:07',
+            "arrTime": moment(arrTime).format("HH:mm:ss.SSS"),
+            "depDate": 'Sun, Aug. 14, 2022 13:07',
+            "depTime": moment(depTime).format("HH:mm:ss.SSS"),
+            "items": parentInputFieldsFinal
+        });
 
-    //         setshowPdf(true);
-    //         setfileName(name + '.pdf');
-    //     }
+        setshowPdf(true);
+        setfileName(name + '.pdf');
+    }
 
-    // }
 
     const onSaveBtnClick = () => {
+
         if (airLine === '') {
             setAirLineErr(true)
         }
@@ -197,14 +190,21 @@ export default function AddProduct() {
             });
         }
         else {
-
             const finalData = {};
+            let passengerItems = [];
+            parentInputFieldsFinal.map((item, index) => {
+                let obj = {
+                    "name": item.name
+                }
+                passengerItems.push(obj)
+            });
+            console.log('passengerItems: ', passengerItems);
             const today = new Date();
             const dd = String(today.getDate()).padStart(2, '0');
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             let finalDepTime = moment(depTime).format("HH:mm:ss.SSS")
             let finalArrTime = moment(arrTime).format("HH:mm:ss.SSS")
-            let bookingRefNo = 'BT-' + mm + dd;
+            let bookingRefNo = 'BT-' + mm + dd + Math.random();
             finalData["airlineName"] = airLine;
             finalData["customerName"] = name;
             finalData["pnrNo"] = pnr;
@@ -217,7 +217,7 @@ export default function AddProduct() {
             finalData["flightNo"] = flightNo;
             finalData["flightFare"] = flightFare;
             finalData["bookingRefNo"] = bookingRefNo;
-
+            finalData["passengers"] = passengerItems;
             const requestOptions = {
                 method: 'POST',
                 headers: {
@@ -274,307 +274,331 @@ export default function AddProduct() {
                 route='/customer'
             />
             <div className={classes.root} >
-                <div className='d-flex'>
-                    <Grid container item spacing={3} sm={12} md={12} className={classes.paper}>
-                        <Grid container item spacing={3} sm={12} md={6} >
+                {
+                    !showPdf ?
+                        <div className='d-flex'>
+                            <Grid container item spacing={3} sm={12} md={12} className={classes.paper}>
+                                <Grid container item spacing={3} sm={12} md={6} >
 
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    {/* <Paper className={classes.paper}> */}
-                                    <div>
-                                        <label>Air Line</label>
-                                    </div>
-                                    {/* </Paper> */}
-                                </Grid>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            {/* <Paper className={classes.paper}> */}
+                                            <div>
+                                                <label>Air Line</label>
+                                            </div>
+                                            {/* </Paper> */}
+                                        </Grid>
 
-                                <Grid item sm={12} md={9}>
-                                    <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                                        <InputLabel id="demo-simple-select-outlined-label" required error={airLineErr}>Air Line</InputLabel>
-                                        <Select
-                                            error={airLineErr}
-                                            labelId="demo-simple-select-outlined-label"
-                                            id="demo-simple-select-outlined"
-                                            value={airLine}
-                                            onChange={e => setAirLine(e.target.value)}
-                                            label="Air Line"
-                                        >
-                                            <MenuItem value={'SpiceJet'}>SpiceJet</MenuItem>
-                                            <MenuItem value={'Indigo'}>Indigo</MenuItem>
-                                            <MenuItem value={'AirAsia'}>AirAsia</MenuItem>
-                                            <MenuItem value={'Vistara'}>Vistara</MenuItem>
-                                            <MenuItem value={'GoFirst'}>GoFirst</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <FormControl variant="outlined" className={classes.formControl} fullWidth>
+                                                <InputLabel id="demo-simple-select-outlined-label" required error={airLineErr}>Air Line</InputLabel>
+                                                <Select
+                                                    error={airLineErr}
+                                                    labelId="demo-simple-select-outlined-label"
+                                                    id="demo-simple-select-outlined"
+                                                    value={airLine}
+                                                    onChange={e => setAirLine(e.target.value)}
+                                                    label="Air Line"
+                                                >
+                                                    <MenuItem value={'SpiceJet'}>SpiceJet</MenuItem>
+                                                    <MenuItem value={'Indigo'}>Indigo</MenuItem>
+                                                    <MenuItem value={'AirAsia'}>AirAsia</MenuItem>
+                                                    <MenuItem value={'Vistara'}>Vistara</MenuItem>
+                                                    <MenuItem value={'GoFirst'}>GoFirst</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
 
-                            </div>
+                                    </div>
 
 
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    <div>
-                                        <label> PNR No. </label>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            <div>
+                                                <label> PNR No. </label>
+                                            </div>
+                                        </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <TextField
+                                                required
+                                                fullWidth
+                                                className="m-2"
+                                                label="PNR No. "
+                                                id="standard-required"
+                                                variant="outlined"
+                                                value={pnr}
+                                                error={pnrErr}
+                                                onChange={e => { setPnr(e.target.value); setPnrErr(false); }}
+                                            />
+                                        </Grid>
                                     </div>
-                                </Grid>
-                                <Grid item sm={12} md={9}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        className="m-2"
-                                        label="PNR No. "
-                                        id="standard-required"
-                                        variant="outlined"
-                                        value={pnr}
-                                        error={pnrErr}
-                                        onChange={e => { setPnr(e.target.value); setPnrErr(false); }}
-                                    />
-                                </Grid>
-                            </div>
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    <div>
-                                        <label> From </label>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            <div>
+                                                <label> From </label>
+                                            </div>
+                                        </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <TextField
+                                                required
+                                                fullWidth
+                                                className="m-2"
+                                                label="From"
+                                                id="standard-required"
+                                                variant="outlined"
+                                                value={from}
+                                                error={fromErr}
+                                                onChange={(e) => {
+                                                    setFrom(e.target.value);
+                                                    setFromErr(false);
+                                                }}
+                                            />
+                                        </Grid>
                                     </div>
-                                </Grid>
-                                <Grid item sm={12} md={9}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        className="m-2"
-                                        label="From"
-                                        id="standard-required"
-                                        variant="outlined"
-                                        value={from}
-                                        error={fromErr}
-                                        onChange={(e) => {
-                                            setFrom(e.target.value);
-                                            setFromErr(false);
-                                        }}
-                                    />
-                                </Grid>
-                            </div>
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    <div>
-                                        <label>Depature Date</label>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            <div>
+                                                <label>Depature Date</label>
+                                            </div>
+                                        </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardDatePicker
+                                                    margin="normal"
+                                                    id="date-picker-dialog"
+                                                    label="Depature Date"
+                                                    format="MM/dd/yyyy"
+                                                    value={depDate}
+                                                    onChange={handleDepatureDateChange}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                        </Grid>
                                     </div>
-                                </Grid>
-                                <Grid item sm={12} md={9}>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardDatePicker
-                                            margin="normal"
-                                            id="date-picker-dialog"
-                                            label="Depature Date"
-                                            format="MM/dd/yyyy"
-                                            value={depDate}
-                                            onChange={handleDepatureDateChange}
-                                            KeyboardButtonProps={{
-                                                'aria-label': 'change date',
-                                            }}
-                                        />
-                                    </MuiPickersUtilsProvider>
-                                </Grid>
-                            </div>
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    <div>
-                                        <label>Depature Time</label>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            <div>
+                                                <label>Depature Time</label>
+                                            </div>
+                                        </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardTimePicker
+                                                    margin="normal"
+                                                    id="time-picker"
+                                                    label="Depature Time"
+                                                    value={depTime}
+                                                    onChange={handleDepatureTimeChange}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change time',
+                                                    }}
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                        </Grid>
                                     </div>
-                                </Grid>
-                                <Grid item sm={12} md={9}>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardTimePicker
-                                            margin="normal"
-                                            id="time-picker"
-                                            label="Depature Time"
-                                            value={depTime}
-                                            onChange={handleDepatureTimeChange}
-                                            KeyboardButtonProps={{
-                                                'aria-label': 'change time',
-                                            }}
-                                        />
-                                    </MuiPickersUtilsProvider>
-                                </Grid>
-                            </div>
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    <div>
-                                        <label>Flight Fare</label>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            <div>
+                                                <label>Flight Fare</label>
+                                            </div>
+                                        </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <TextField
+                                                fullWidth
+                                                className="m-2"
+                                                label="Flight Fare"
+                                                id="standard-required"
+                                                variant="outlined"
+                                                value={flightFare}
+                                                error={flightFareErr}
+                                                onChange={(e) => {
+                                                    setFlightFare(e.target.value);
+                                                    setFlightFareErr(false);
+                                                }}
+                                            />
+                                        </Grid>
                                     </div>
-                                </Grid>
-                                <Grid item sm={12} md={9}>
-                                    <TextField
-                                        fullWidth
-                                        className="m-2"
-                                        label="Flight Fare"
-                                        id="standard-required"
-                                        variant="outlined"
-                                        value={flightFare}
-                                        error={flightFareErr}
-                                        onChange={(e) => {
-                                            setFlightFare(e.target.value);
-                                            setFlightFareErr(false);
-                                        }}
-                                    />
-                                </Grid>
-                            </div>
 
-                        </Grid>
-                        <Grid container item spacing={3} sm={12} md={6}>
+                                </Grid>
+                                <Grid container item spacing={3} sm={12} md={6}>
 
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    <div>
-                                        <label> Name </label>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            <div>
+                                                <label> Name </label>
+                                            </div>
+                                        </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <TextField
+                                                required
+                                                fullWidth
+                                                className="m-2"
+                                                label="Name"
+                                                id="standard-required"
+                                                variant="outlined"
+                                                value={name}
+                                                error={nameErr}
+                                                onChange={e => { setName(e.target.value); setNameErr(false); }}
+                                            />
+                                        </Grid>
                                     </div>
-                                </Grid>
-                                <Grid item sm={12} md={9}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        className="m-2"
-                                        label="Name"
-                                        id="standard-required"
-                                        variant="outlined"
-                                        value={name}
-                                        error={nameErr}
-                                        onChange={e => { setName(e.target.value); setNameErr(false); }}
-                                    />
-                                </Grid>
-                            </div>
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    <div>
-                                        <label> Flight No. </label>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            <div>
+                                                <label> Flight No. </label>
+                                            </div>
+                                        </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <TextField
+                                                fullWidth
+                                                className="m-2"
+                                                label="Flight No."
+                                                id="standard-required"
+                                                variant="outlined"
+                                                value={flightNo}
+                                                onChange={e => { setFlightNo(e.target.value) }}
+                                            />
+                                        </Grid>
                                     </div>
-                                </Grid>
-                                <Grid item sm={12} md={9}>
-                                    <TextField
-                                        fullWidth
-                                        className="m-2"
-                                        label="Flight No."
-                                        id="standard-required"
-                                        variant="outlined"
-                                        value={flightNo}
-                                        onChange={e => { setFlightNo(e.target.value) }}
-                                    />
-                                </Grid>
-                            </div>
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    <div>
-                                        <label> To </label>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            <div>
+                                                <label> To </label>
+                                            </div>
+                                        </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <TextField
+                                                required
+                                                fullWidth
+                                                className="m-2"
+                                                label="To"
+                                                id="standard-required"
+                                                variant="outlined"
+                                                value={to}
+                                                error={toErr}
+                                                onChange={(e) => {
+                                                    setTo(e.target.value);
+                                                    setToErr(false);
+                                                }}
+                                            />
+                                        </Grid>
                                     </div>
-                                </Grid>
-                                <Grid item sm={12} md={9}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        className="m-2"
-                                        label="To"
-                                        id="standard-required"
-                                        variant="outlined"
-                                        value={to}
-                                        error={toErr}
-                                        onChange={(e) => {
-                                            setTo(e.target.value);
-                                            setToErr(false);
-                                        }}
-                                    />
-                                </Grid>
-                            </div>
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    <div>
-                                        <label>Arrival Date</label>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            <div>
+                                                <label>Arrival Date</label>
+                                            </div>
+                                        </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardDatePicker
+                                                    margin="normal"
+                                                    id="date-picker-dialog"
+                                                    label="Arrival Date"
+                                                    format="MM/dd/yyyy"
+                                                    value={arrDate}
+                                                    onChange={handleArrivalDateChange}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                        </Grid>
                                     </div>
-                                </Grid>
-                                <Grid item sm={12} md={9}>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardDatePicker
-                                            margin="normal"
-                                            id="date-picker-dialog"
-                                            label="Arrival Date"
-                                            format="MM/dd/yyyy"
-                                            value={arrDate}
-                                            onChange={handleArrivalDateChange}
-                                            KeyboardButtonProps={{
-                                                'aria-label': 'change date',
-                                            }}
-                                        />
-                                    </MuiPickersUtilsProvider>
-                                </Grid>
-                            </div>
-                            <div className="editPageDesign mt-3">
-                                <Grid item sm={12} md={3}>
-                                    <div>
-                                        <label>Arrival Time</label>
+                                    <div className="editPageDesign mt-3">
+                                        <Grid item sm={12} md={3}>
+                                            <div>
+                                                <label>Arrival Time</label>
+                                            </div>
+                                        </Grid>
+                                        <Grid item sm={12} md={9}>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardTimePicker
+                                                    margin="normal"
+                                                    id="time-picker"
+                                                    label="Arrival Time"
+                                                    value={arrTime}
+                                                    onChange={handleArrivalTimeChange}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change time',
+                                                    }}
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                        </Grid>
                                     </div>
-                                </Grid>
-                                <Grid item sm={12} md={9}>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardTimePicker
-                                            margin="normal"
-                                            id="time-picker"
-                                            label="Arrival Time"
-                                            value={arrTime}
-                                            onChange={handleArrivalTimeChange}
-                                            KeyboardButtonProps={{
-                                                'aria-label': 'change time',
-                                            }}
-                                        />
-                                    </MuiPickersUtilsProvider>
-                                </Grid>
-                            </div>
-                            <div className="editPageDesign mt-3" style={{ height: "54px" }}></div>
+                                    <div className="editPageDesign mt-3" style={{ height: "54px" }}></div>
 
-                        </Grid>
-                        <Divider className="w-100 mt-5" />
-                        <Grid container item spacing={3} sm={12} md={12}>
-                            {parentInputFieldsFinal.map((input, index) => (
-                                <div className="editPageDesign mt-3" key={index}>
-                                    <Grid item sm={12} md={2}>
-                                        <div className='mt-4 ml-4'>
-                                            <label>Passenger Name</label>
+                                </Grid>
+                                <Divider className="w-100 mt-5" />
+                                <Grid container item spacing={3} sm={12} md={12}>
+                                    {parentInputFieldsFinal.map((input, index) => (
+                                        <div className="editPageDesign mt-3" key={index}>
+                                            <Grid item sm={12} md={2}>
+                                                <div className='mt-4 ml-4'>
+                                                    <label>Passenger Name</label>
+                                                </div>
+                                            </Grid>
+                                            <Grid item sm={12} md={6}>
+                                                <TextField
+                                                    fullWidth
+                                                    className="m-2"
+                                                    label="Passenger Name"
+                                                    id="standard-required"
+                                                    variant="outlined"
+                                                    name='name'
+                                                    value={input.name}
+                                                    onChange={event => handlePassengerDataChange(index, event)}
+
+                                                />
+                                            </Grid>
+                                            <div className='ml-3 mt-3'>
+                                                <Button variant="outlined" color="primary" onClick={addProduct}> Add More</Button>
+                                                {
+                                                    parentInputFieldsFinal.length > 1 ?
+                                                        <Button variant="outlined" onClick={(e) => removeMoreFields(e, index)} >Remove</Button>
+                                                        :
+                                                        <Button variant="outlined" disabled onClick={(e) => removeMoreFields(e, index)} >Remove</Button>
+                                                }
+                                                {/* <Button className='ml-1' variant="outlined" color="primary" onClick={addProduct}> Remove</Button> */}
+                                            </div>
                                         </div>
-                                    </Grid>
-                                    <Grid item sm={12} md={6}>
-                                        <TextField
-                                            fullWidth
-                                            className="m-2"
-                                            label="Passenger Name"
-                                            id="standard-required"
-                                            variant="outlined"
-                                            name='passengers'
-                                            value={input.passengers}
-                                            onChange={event => handlePassengerDataChange(index, event)}
-
-                                        />
-                                    </Grid>
-                                    <div className='ml-3 mt-3'>
-                                        <Button variant="outlined" color="primary" onClick={addProduct}> Add More</Button>
-                                        {
-                                            parentInputFieldsFinal.length > 1 ?
-                                                <Button variant="outlined" onClick={(e) => removeMoreFields(e, index)} >Remove</Button>
-                                                :
-                                                <Button variant="outlined" disabled onClick={(e) => removeMoreFields(e, index)} >Remove</Button>
-                                        }
-                                        {/* <Button className='ml-1' variant="outlined" color="primary" onClick={addProduct}> Remove</Button> */}
-                                    </div>
+                                    ))
+                                    }
+                                </Grid>
+                                <Divider className="w-100 mt-5" />
+                                <div style={{ textAlign: "right", width: '100%', marginTop: '10px' }}>
+                                    <Button variant="outlined" color="primary" onClick={() => onSubmitBtnClk()} >Generate PDF</Button>
+                                    <Button variant="outlined" color="default" style={{ marginRight: '15px' }} onClick={() => history.push('/customer')}>Cancel</Button>
+                                    <Button variant="outlined" color="primary" onClick={() => onSaveBtnClick()}>Save</Button>
                                 </div>
-                            ))
-                            }
-                        </Grid>
-                        <Divider className="w-100 mt-5" />
-                        <div style={{ textAlign: "right", width: '100%', marginTop: '10px' }}>
-                            <Button variant="outlined" color="primary" >Generate PDF</Button>
-                            <Button variant="outlined" color="default" style={{ marginRight: '15px' }} onClick={() => history.push('/customer')}>Cancel</Button>
-                            <Button variant="outlined" color="primary" onClick={() => onSaveBtnClick()}>Save</Button>
+                            </Grid>
                         </div>
-                    </Grid>
-                </div>
+                        :
+                        <PDFViewer width="1000" height="600" className="app" >
+                            <Invoice invoice={invoice} />
+                        </PDFViewer>
+                }
             </div>
+            {
+                showPdf ?
+                    <>
+                        <PDFDownloadLink document={<Invoice invoice={invoice} />}>
+                            {({ blob, url, loading, error }) =>
+                                // loading ? 'Loading document...' : 'Download now!'
+
+                                !loading && blob ?
+                                    blobToFile(blob, fileName)
+                                    : null
+
+                            }
+                        </PDFDownloadLink>
+                        <Button variant="outlined" color="primary" >Save</Button>
+                    </>
+                    :
+                    null
+            }
         </Fragment>
     );
 }
-

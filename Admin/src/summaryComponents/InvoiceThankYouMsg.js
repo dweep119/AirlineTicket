@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
         fontSize: 9,
     },
     specificationTitle: {
-        borderBottom: 1,
         fontSize: 11,
     },
     specificationTitle2: {
@@ -31,7 +30,67 @@ const styles = StyleSheet.create({
 });
 const InvoiceThankYouMsg = ({invoice}) => (
     <View style={styles.titleContainer}>
-        <Text style={styles.reportTitle}>Thank you for Business!</Text>
+        <Text style={styles.specificationTitle}>
+            Base Fare +  Fuel Surcharge
+        </Text>
+        <Text style={styles.specificationItems}>
+            <li>Base Fare (89%):  36250.0</li>
+        </Text>
+        <Text style={styles.specificationItems}>
+            <li>                  :  0</li>
+        </Text>
+        <Text style={styles.specificationItems}>
+            <li> Fuel Surcharge :  0</li>
+        </Text>
+        <Text style={styles.specificationTitle}>
+            Other Fees and Taxes:-
+        </Text>
+        <Text style={styles.specificationItems}>
+            <li>Passenger Service Fee:  0</li>
+        </Text>
+        <Text style={styles.specificationItems}>
+            <li>Service Charge and Taxes (7%):  2200.00</li>
+        </Text>
+        <Text style={styles.specificationItems}>
+            <li>Cute Fee (4%) : 550.00</li>
+        </Text>
+        <Text style={styles.specificationItems}>
+            <li>Infant Fee : 0 </li>
+        </Text>
+        <Text style={styles.specificationTitle}>
+            <li>SSR Details</li>
+        </Text>
+        <Text style={styles.specificationItems}>
+
+            <li>Baggage : 0</li>
+        </Text>
+        <Text style={styles.specificationItems}>
+
+            <li>Meals : 0 </li>
+        </Text>
+        <Text style={styles.specificationItems}>
+
+            <li>Seats : 0</li>
+        </Text>
+        <Text style={styles.specificationItems}>
+
+            <li>Bag Out First : 0</li>
+        </Text>
+        <Text style={styles.specificationItems}>
+
+            <li>Priority Check-in : 0</li>
+        </Text>
+        <Text style={styles.specificationTitle}>
+
+            <li>Total Price : 39,000 </li>
+        </Text>
+        <Text style={styles.specificationItems}>
+
+            <li>Discount: 0</li>
+        </Text>
+
+        <Text style={styles.reportTitle}>*Special Conditions: Hand Baggage Only fare, No check-in baggage allowance included. If a passenger wishes to check-in baggage at the 
+airport, a fare type change fee of INR 400/- shall be chargeable at the airport.</Text>
     </View>
 );
 

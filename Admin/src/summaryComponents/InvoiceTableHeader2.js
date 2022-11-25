@@ -14,29 +14,57 @@ const styles = StyleSheet.create({
         fontStyle: 'bold',
         flexGrow: 1,
     },
-    passengerName: {
-        width: '35%',
+    travelDate: {
+        width: '20%',
         textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         // paddingLeft: 8,
     },
-    flight: {
-        width: '25%',
+    flightNo: {
+        width: '10%',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         textAlign: 'center',
         // paddingRight: 8,
     },
-    fareType: {
-        width: '15%',
+    from: {
+        width: '10%',
         textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         // paddingRight: 8,
     },
-    addOnServices: {
-        width: '25%',
+    to: {
+        width: '10%',
+        textAlign: 'center',
+        borderRightColor: borderColor,
+        borderRightWidth: 1,
+        // paddingRight: 8,
+    },
+    depTime: {
+        width: '10%',
+        textAlign: 'center',
+        borderRightColor: borderColor,
+        borderRightWidth: 1,
+        // paddingRight: 8,
+    },
+    arrTime: {
+        width: '10%',
+        textAlign: 'center',
+        borderRightColor: borderColor,
+        borderRightWidth: 1,
+        // paddingRight: 8,
+    },
+    airline: {
+        width: '10%',
+        textAlign: 'center',
+        borderRightColor: borderColor,
+        borderRightWidth: 1,
+        // paddingRight: 8,
+    },
+    tourCode: {
+        width: '10%',
         textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
@@ -45,14 +73,14 @@ const styles = StyleSheet.create({
   
   });
 
-  const InvoiceTableHeader = () => (
+  const InvoiceTableHeader2 = () => (
     <View style={styles.container}>
-        <Text style={styles.passengerName}>Passenger Name</Text>
-        <Text style={styles.flight}>Flight</Text>  
-        <Text style={styles.fareType}>Fare Type</Text>
+        <Text style={styles.passengerName}>TRAVEL DATE</Text>
+        <Text style={styles.flight}>FLIGHT NO.</Text>  
+        <Text style={styles.fareType}>FROM/TERMINAL</Text>
         <Text style={styles.addOnServices}>Add-On Services</Text>
 
     </View>
   );
   
-  export default InvoiceTableHeader
+  export default InvoiceTableHeader2

@@ -61,7 +61,7 @@
     "arrTime": {
       "type": "time"
     },
-    "passangers": {
+    "passengers": {
       "type": "json"
     }
   }

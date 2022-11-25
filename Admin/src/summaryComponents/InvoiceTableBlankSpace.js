@@ -12,23 +12,30 @@ const styles = StyleSheet.create({
         fontStyle: 'bold',
         color: 'white'
     },
-    no: {
-        width: '10%',
-        textAlign: 'left',
+    passengerName: {
+        width: '35%',
+        textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
-        paddingLeft: 8,
+        // paddingLeft: 8,
     },
-    particulars: {
-        width: '50%',
+    flight: {
+        width: '25%',
         borderRightColor: borderColor,
         borderRightWidth: 1,
-        textAlign: 'right',
-        paddingRight: 8,
+        textAlign: 'center',
+        // paddingRight: 8,
     },
-    qty: {
-        width: '40%',
-        textAlign: 'right',
+    fareType: {
+        width: '15%',
+        textAlign: 'center',
+        borderRightColor: borderColor,
+        borderRightWidth: 1,
+        // paddingRight: 8,
+    },
+    addOnServices: {
+        width: '25%',
+        textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         // paddingRight: 8,
@@ -41,10 +48,10 @@ const InvoiceTableBlankSpace = ({rowsCount}) => {
     const blankRows = Array(rowsCount).fill(0)
     const rows = blankRows.map( (x, i) => 
         <View style={styles.row} key={`BR${i}`}>
-        <Text style={styles.no}>-</Text>
-        <Text style={styles.particulars}>-</Text>  
-        <Text style={styles.qty}>-</Text>
-
+        <Text style={styles.passengerName}>-</Text>
+        <Text style={styles.flight}>-</Text>  
+        <Text style={styles.fareType}>-</Text>
+        <Text style={styles.addOnServices}>-</Text>
         </View>
     )
     return (<Fragment>{rows}</Fragment> )
