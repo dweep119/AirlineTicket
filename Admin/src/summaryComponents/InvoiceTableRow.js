@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 
-const borderColor = '#90e5fc'
+const borderColor = '#71706E'
 const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
-        borderBottomColor: '#bff0fd',
+        borderBottomColor: '#71706E',
         borderBottomWidth: 1,
         alignItems: 'center',
-        height: 85,
+        height: 30,
         fontStyle: 'bold',
         textAlign: 'center',
     },
@@ -16,19 +16,17 @@ const styles = StyleSheet.create({
         width: '35%',
         textAlign: 'center',
         borderRightColor: borderColor,
-        height: 85,
         borderRightWidth: 1,
-        // paddingLeft: 8,
+        height: 30,
+        paddingTop: '10px',
     },
     flight: {
         width: '25%',
         borderRightColor: borderColor,
-        height: 85,
         borderRightWidth: 1,
-        textAlign: 'left',
-        paddingLeft: 5,
-        fontSize: 9,
-        paddingTop: 4
+        textAlign: 'center',
+        paddingTop: '10px',
+        height: 30,
     },
 
     fareType: {
@@ -36,26 +34,24 @@ const styles = StyleSheet.create({
         borderRightColor: borderColor,
         borderRightWidth: 1,
         textAlign: 'center',
-        height: 85,
-        // paddingRight: 8,
+        paddingTop: '10px',
+        height: 30,
     },
     addOnServices: {
         width: '25%',
-        // borderRightColor: borderColor,
-        // borderRightWidth: 1,
         textAlign: 'center',
-        // paddingRight: 8,
+        paddingTop: '10px',
+        height: 30,
     },
 });
 
 const InvoiceTableRow = ({ items }) => {
-    console.log('items: ', items);
-    const rows = items.map((item, index) =>
+    const rows = items.passengers.map((item, index) =>
         <View style={styles.row} key={index}>
-            <Text style={styles.passengerName}>{item.passengers}</Text>
-            <Text style={styles.flight}>{item.flightNo}</Text>
+            <Text style={styles.passengerName}>{item.name}</Text>
+            <Text style={styles.flight}>{items.flightNo}</Text>
             <Text style={styles.fareType}>Basic</Text>
-            <Text style={styles.addOnServices}>abcd</Text>
+            <Text style={styles.addOnServices}></Text>
         </View>
     )
     return (<Fragment>{rows}</Fragment>)

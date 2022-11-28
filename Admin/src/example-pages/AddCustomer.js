@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
@@ -85,6 +85,8 @@ export default function AddProduct() {
     const [counter, setcounter] = React.useState(0);
     const [invoice, setInvoice] = useState({});
     const [fileName, setfileName] = React.useState('');
+    const [bookingRefNo, setbookingRefNo] = useState(null);
+    const [customer, setCustomer] = React.useState([]);
 
     const [parentInputFieldsFinal, setParentInputFieldsFinal] = useState(
         [
@@ -131,30 +133,63 @@ export default function AddProduct() {
             setPdfPath(file);
         }
     }
+
+    useEffect(() => {
+        callAPI();
+        // eslint-disable-next-line
+    }, []);
+
+    const callAPI = () => {
+        fetch('http://localhost:1337/api/airline-tickets').then(response => response.json())
+            .then(data => {
+                console.log('data: ', data);
+                setCustomer(data['data']);
+            })
+            .catch((error) => {
+                // callAPI();
+            });
+    }
+
     const onSubmitBtnClk = () => {
         console.log(parentInputFieldsFinal)
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
 
-        
+        let lastNo =
+            parseInt(
+                customer
+                    .sort((a, b) => a.attributes.createdAt.localeCompare(b.attributes.createdAt))
+                [customer?.length > 1 ? customer?.length - 2 : customer?.length - 1]?.attributes.bookingRefNo.split('-')[3] || 0
+            ) + 1;
+
+        let applicationNo = 'PT-' + mm + '-' + dd + '-' + lastNo;
+        setbookingRefNo(applicationNo);
+        console.log('applicationNo: ', applicationNo);
+
+
 
         setInvoice({
+
             ...invoice,
+
             // "trans_date": newDat,
             "customer_name": name,
             "customer_mobile": '1234567890',
             "customer_email": 'email123@gmail.com',
             "customer_airline": airLine,
             "pnr": pnr,
-            "ref_no": 12345,
-            "booked": 'Sun, Aug. 14, 2022 13:07',
+            "ref_no": applicationNo,
+            "booked": moment().format("ddd, MMM. D, YYYY HH:mm"),
             "status": 'Confirmed',
             "from": from,
             "to": to,
             "flightNo": flightNo,
-            "arrDate": 'Sun, Aug. 14, 2022 13:07',
-            "arrTime": moment(arrTime).format("HH:mm:ss.SSS"),
-            "depDate": 'Sun, Aug. 14, 2022 13:07',
-            "depTime": moment(depTime).format("HH:mm:ss.SSS"),
-            "items": parentInputFieldsFinal
+            "arrDate": moment(arrDate).format('ddd MMM. D, YYYY'),
+            "arrTime": moment(arrTime).format("HH:mm"),
+            "depDate": moment(depDate).format('ddd MMM. D, YYYY'),
+            "depTime": moment(depTime).format("HH:mm"),
+            "passengers": parentInputFieldsFinal
         });
 
         setshowPdf(true);
@@ -199,20 +234,20 @@ export default function AddProduct() {
                 passengerItems.push(obj)
             });
             console.log('passengerItems: ', passengerItems);
-            const today = new Date();
-            const dd = String(today.getDate()).padStart(2, '0');
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
+
             let finalDepTime = moment(depTime).format("HH:mm:ss.SSS")
             let finalArrTime = moment(arrTime).format("HH:mm:ss.SSS")
-            let bookingRefNo = 'BT-' + mm + dd + Math.random();
+            let finalDepDate = moment(depDate).format('YYYY-MM-DD')
+            let finalArrDate = moment(arrDate).format('YYYY-MM-DD')
+
             finalData["airlineName"] = airLine;
             finalData["customerName"] = name;
             finalData["pnrNo"] = pnr;
             finalData["from"] = from;
             finalData["to"] = to;
-            finalData["depDate"] = depDate;
+            finalData["depDate"] = finalDepDate;
             finalData["depTime"] = finalDepTime;
-            finalData["arrDate"] = arrDate;
+            finalData["arrDate"] = finalArrDate;
             finalData["arrTime"] = finalArrTime;
             finalData["flightNo"] = flightNo;
             finalData["flightFare"] = flightFare;
@@ -595,6 +630,7 @@ export default function AddProduct() {
                             }
                         </PDFDownloadLink>
                         <Button variant="outlined" color="primary" >Save</Button>
+                        <Button variant="outlined" color="default" style={{ marginLeft: '15px' }} onClick={() => { setshowPdf(false); setcounter(0); }}>Cancel</Button>
                     </>
                     :
                     null

@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
                     {/* <InvoiceTitle title='Quotation'/>
                     <InvoiceNo invoice={invoice}/> */}
                     <BillFrom invoice={invoice}/>
-                    <BillTo invoice={invoice} today={today1}/>
+                    <BillTo invoice={invoice}/>
                     <InvoiceItemsTable invoice={invoice} />
                     <InvoiceThankYouMsg invoice={invoice}/>
                 </Page>

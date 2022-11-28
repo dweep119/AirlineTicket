@@ -1,89 +1,97 @@
-import React from 'react';
-import {Text, View, StyleSheet } from '@react-pdf/renderer';
+import React, { Fragment } from 'react';
+import { Text, View, StyleSheet } from '@react-pdf/renderer';
 
 const borderColor = '#71706E'
 const styles = StyleSheet.create({
-    container: {
+    row: {
         flexDirection: 'row',
         borderBottomColor: '#71706E',
-        backgroundColor: 'white',
         borderBottomWidth: 1,
         alignItems: 'center',
-        height: 24,
-        textAlign: 'center',
+        height: 20,
         fontStyle: 'bold',
-        flexGrow: 1,
+        textAlign: 'center',
     },
     travelDate: {
         width: '15%',
         textAlign: 'center',
         borderRightColor: borderColor,
+        height: 20,
         borderRightWidth: 1,
         // paddingLeft: 8,
     },
     flightNo: {
         width: '14%',
         borderRightColor: borderColor,
+        height: 20,
         borderRightWidth: 1,
         textAlign: 'center',
-        // paddingRight: 8,
     },
+
     from: {
         width: '13%',
-        textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
-        // paddingRight: 8,
+        textAlign: 'center',
+        height: 20,
     },
     to: {
         width: '13%',
-        textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
+        textAlign: 'center',
+        height: 20,
         // paddingRight: 8,
     },
     depTime: {
         width: '10%',
-        textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
+        textAlign: 'center',
+        height: 20,
         // paddingRight: 8,
     },
     arrTime: {
         width: '10%',
-        textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
+        textAlign: 'center',
+        height: 20,
         // paddingRight: 8,
     },
     airline: {
         width: '10%',
-        textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
+        textAlign: 'center',
+        height: 20,
         // paddingRight: 8,
     },
     tourCode: {
         width: '15%',
-        textAlign: 'center',
         // borderRightColor: borderColor,
         // borderRightWidth: 1,
+        textAlign: 'center',
+        height: 20,
         // paddingRight: 8,
     },
-  
-  });
 
-  const InvoiceTableHeader2 = () => (
-    <View style={styles.container}>
-        <Text style={styles.travelDate}>TRAVEL DATE</Text>
-        <Text style={styles.flightNo}>FLIGHT NO.</Text>  
-        <Text style={styles.from}>FROM</Text>
-        <Text style={styles.to}>TO</Text>
-        <Text style={styles.depTime}>DEP TIME</Text>
-        <Text style={styles.arrTime}>ARR TIME</Text>
-        <Text style={styles.airline}>AIRLINE</Text>
-        <Text style={styles.tourCode}>TOURCODE</Text>
-    </View>
-  );
-  
-  export default InvoiceTableHeader2
+});
+
+const InvoiceTableRow2 = ({ item }) => {
+    console.log('item: InvioceTableRow2', item);
+    return (
+        <View style={styles.row}>
+            <Text style={styles.travelDate}>{item?.depDate}</Text>
+            <Text style={styles.flightNo}>{item?.flightNo}</Text>
+            <Text style={styles.from}>{item?.from}</Text>
+            <Text style={styles.to}>{item?.to}</Text>
+            <Text style={styles.depTime}>{item?.depTime}</Text>
+            <Text style={styles.arrTime}>{item?.arrTime}</Text>
+            <Text style={styles.airline}>{item?.customer_airline}</Text>
+            <Text style={styles.tourCode}>NIL</Text>
+        </View>
+    );
+};
+
+export default InvoiceTableRow2
