@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderBottomWidth: 1,
         alignItems: 'center',
-        height: 24,
+        height: 20,
         textAlign: 'center',
         fontStyle: 'bold',
         flexGrow: 1,
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
+        fontSize: 10,
         // paddingLeft: 8,
     },
     flightNo: {
@@ -26,6 +27,7 @@ const styles = StyleSheet.create({
         borderRightColor: borderColor,
         borderRightWidth: 1,
         textAlign: 'center',
+        fontSize: 10,
         // paddingRight: 8,
     },
     from: {
@@ -33,6 +35,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
+        fontSize: 10,
         // paddingRight: 8,
     },
     to: {
@@ -40,6 +43,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
+        fontSize: 10,
         // paddingRight: 8,
     },
     depTime: {
@@ -47,6 +51,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
+        fontSize: 10,
         // paddingRight: 8,
     },
     arrTime: {
@@ -54,6 +59,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
+        fontSize: 10,
         // paddingRight: 8,
     },
     airline: {
@@ -61,11 +67,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRightColor: borderColor,
         borderRightWidth: 1,
+        fontSize: 10,
         // paddingRight: 8,
     },
     tourCode: {
         width: '15%',
         textAlign: 'center',
+        fontSize: 10,
         // borderRightColor: borderColor,
         // borderRightWidth: 1,
         // paddingRight: 8,

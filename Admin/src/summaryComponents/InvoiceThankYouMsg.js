@@ -21,12 +21,71 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         marginTop: 3,
         // marginLeft: 15,
-        fontSize: 10,
+        fontSize: 9,
     },
     specificationTitle: {
         fontSize: 11,
         fontWeight: 700,
         fontStyle: 'bold',
+    },
+    specificationTitle_w80: {
+        fontSize: 11,
+        fontWeight: 700,
+        fontStyle: 'bold',
+        width: 90,
+    },
+    specificationItems_w80: {
+        flexDirection: 'column',
+        marginTop: 3,
+        // marginLeft: 15,
+        fontSize: 9,
+        width: 90,
+    },
+    specificationTitle_mt10_w80: {
+        fontSize: 12,
+        fontWeight: 700,
+        fontStyle: 'bold',
+        marginTop: '10px',
+        width: 90,
+    },
+    specificationTitle_mt10_fs_w80: {
+        fontSize: 13,
+        fontWeight: 700,
+        fontStyle: 'bold',
+        marginTop: '10px',
+        width: 90,
+    },
+
+
+
+
+    specificationTitle_w20: {
+        fontSize: 9,
+        fontWeight: 700,
+        fontStyle: 'bold',
+        width: 10,
+        marginTop: 3,
+    },
+    specificationItems_w20: {
+        flexDirection: 'column',
+        marginTop: 3,
+        // marginLeft: 15,
+        fontSize: 9,
+        width: 10,
+    },
+    specificationTitle_mt10_w20: {
+        fontSize: 12,
+        fontWeight: 700,
+        fontStyle: 'bold',
+        marginTop: '10px',
+        width: 10,
+    },
+    specificationTitle_mt10_fs_w20: {
+        fontSize: 13,
+        fontWeight: 700,
+        fontStyle: 'bold',
+        marginTop: '10px',
+        width: 10,
     },
     specificationTitle_last: {
         fontSize: 9,
@@ -63,74 +122,157 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontSize: 11,
     },
-    width50: {
-        width: '50%',
+    width60: {
+        width: '53%',
         flexDirection: "column",
+    },
+    width40: {
+        width: '47%',
+        flexDirection: "column",
+    },
+    d_col: {
+        flexDirection: "row",
     },
 });
 const InvoiceThankYouMsg = ({ invoice }) => (
     <>
         <View style={styles.titleContainer2}>
-            <div style={styles.width50}>
+            <div style={styles.width60}>
                 <Text style={styles.specificationTitle}>
                     Base Fare +  Fuel Surcharge:-
                 </Text>
-                <Text style={styles.specificationItems}>
-                    <li>Base Fare (89%):  36250.0</li>
-                </Text>
-                {/* <Text style={styles.specificationItems}>
-                    <li>                  :  0</li>
-                </Text> */}
-                <Text style={styles.specificationItems}>
-                    <li> Fuel Surcharge :  0</li>
-                </Text>
+                <div style={styles.d_col} >
+                    <Text style={styles.specificationItems_w80}>
+                        <li>Base Fare (89%):</li>
+                    </Text>
+                    <Text style={styles.specificationTitle_w20}>
+                        <li>36250.0</li>
+                    </Text>
+                </div>
+                <div style={styles.d_col} >
+                    <Text style={styles.specificationItems_w80}>
+                        <li> Fuel Surcharge :</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
+                        <li> 0</li>
+                    </Text>
+                </div>
+
                 <Text style={styles.specificationTitle_mt10}>
                     Other Fees and Taxes:-
                 </Text>
-                <Text style={styles.specificationItems}>
-                    <li>Passenger Service Fee:  0</li>
-                </Text>
-                <Text style={styles.specificationItems}>
-                    <li>Service Charge and Taxes (7%):  2200.00</li>
-                </Text>
-                <Text style={styles.specificationItems}>
-                    <li>Cute Fee (4%) : 550.00</li>
-                </Text>
-                <Text style={styles.specificationItems}>
-                    <li>Infant Fee : 0 </li>
-                </Text>
-                <Text style={styles.specificationTitle_mt10}>
+
+                <div style={styles.d_col}>
+                    <Text style={styles.specificationItems_w80}>
+                        <li>Passenger Service Fee:</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
+                        <li> 0</li>
+                    </Text>
+                </div>
+                <div style={styles.d_col}>
+                    <Text style={styles.specificationItems_w80}>
+                        <li>Service Charge and Taxes (7%):</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
+                        <li>2200.00</li>
+                    </Text>
+                </div>
+                <div style={styles.d_col}>
+                    <Text style={styles.specificationItems_w80}>
+                        <li>Cute Fee (4%)</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
+                        <li>550.00</li>
+                    </Text>
+                </div>
+
+                <div style={styles.d_col}>
+
+                    <Text style={styles.specificationItems_w80}>
+                        <li>Infant Fee :</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
+                        <li>0</li>
+                    </Text>
+                </div>
+
+                <Text style={styles.specificationTitle_mt10_w80}>
                     <li>SSR Details:-</li>
                 </Text>
-                <Text style={styles.specificationItems}>
 
-                    <li>Baggage : 0</li>
-                </Text>
-                <Text style={styles.specificationItems}>
+                <div style={styles.d_col}>
+                    <Text style={styles.specificationItems_w80}>
 
-                    <li>Meals : 0 </li>
-                </Text>
-                <Text style={styles.specificationItems}>
+                        <li>Baggage:</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
 
-                    <li>Seats : 0</li>
-                </Text>
-                <Text style={styles.specificationItems}>
+                        <li>0</li>
+                    </Text>
+                </div>
+                <div style={styles.d_col}>
+                    <Text style={styles.specificationItems_w80}>
+                        <li>Meals:</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
+                        <li>0</li>
+                    </Text>
+                </div>
+                <div style={styles.d_col}>
+                    <Text style={styles.specificationItems_w80}>
 
-                    <li>Bag Out First : 0</li>
-                </Text>
-                <Text style={styles.specificationItems}>
+                        <li>Seats:</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
 
-                    <li>Priority Check-in : 0</li>
-                </Text>
-                <Text style={styles.specificationTitle_mt10_fs}>
+                        <li>0</li>
+                    </Text>
+                </div>
+                <div style={styles.d_col}>
+                    <Text style={styles.specificationItems_w80}>
 
-                    <li>Total Price : 39,000 </li>
-                </Text>
-                <Text style={styles.specificationItems}>
-                    <li>Discount: 0</li>
-                </Text>
+                        <li>Bag Out First:</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
+                        <li>0</li>
+                    </Text>
+                </div>
+
+                <div style={styles.d_col}>
+                    <Text style={styles.specificationItems_w80}>
+
+                        <li>Priority Check-in :</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
+
+                        <li>0</li>
+                    </Text>
+                </div>
+
+                <div style={styles.d_col}>
+                    <Text style={styles.specificationTitle_mt10_fs_w80}>
+
+                        <li>Total Price :</li>
+                    </Text>
+                    <Text style={styles.specificationTitle_mt10_fs_w20}>
+
+                        <li>39,000</li>
+                    </Text>
+                </div>
+
+                <div style={styles.d_col}>
+                    <Text style={styles.specificationItems_w80}>
+                        <li>Discount:</li>
+                    </Text>
+                    <Text style={styles.specificationItems_w20}>
+                        <li>0</li>
+                    </Text>
+                </div>
+
             </div>
-            <div style={styles.width50}>
+
+            <div style={styles.width40}>
                 <Text style={styles.contactInfoTitle}>
                     Passenger Contact Information
                 </Text>

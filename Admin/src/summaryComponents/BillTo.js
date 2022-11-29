@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import image1 from '../assets/images/blue.png'
 import image2 from '../assets/images/red.png'
-import image3 from '../assets/images/yellow.png'
+import image3 from '../assets/images/violet.png.png'
 const styles = StyleSheet.create({
   headerContainer: {
-    marginTop: 5,
+    marginTop: 2,
     flexDirection: "row",
   },
   image1: {
@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
     width: '50%',
     marginTop: 5,
     border: 1,
-    borderColor: '#efd267',
+    borderColor: '#50174A',
     borderRadius: '20%',
     padding: '10px',
-    backgroundColor: '#efd267',
-    color: '#FF0000'
+    backgroundColor: '#50174A',
+    color: '#FFFFFF'
   },
   to_invoiceDate: {
     width: '50%',
@@ -95,23 +95,23 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginLeft: 35,
     border: 1,
-    borderColor: '#efd267',
+    borderColor: '#50174A',
     borderRadius: '20%',
     padding: '10px',
-    backgroundColor: '#efd267',
-    color: '#FF0000'
+    backgroundColor: '#50174A',
+    color: '#FFFFFF'
   },
   to_invoice1: {
     width: '40%',
-    marginTop: 5,
+    marginTop: 3,
   },
   to_invoice2: {
     width: '20%',
-    marginTop: 5,
+    marginTop: 3,
   },
   to_invoice3: {
     width: '40%',
-    marginTop: 5,
+    marginTop: 3,
   },
   image: {
     height: 10,

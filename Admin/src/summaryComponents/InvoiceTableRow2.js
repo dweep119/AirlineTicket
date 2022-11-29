@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
         borderRightColor: borderColor,
         height: 20,
         borderRightWidth: 1,
+        paddingTop: '5px',
+        fontSize: 9,
         // paddingLeft: 8,
     },
     flightNo: {
@@ -26,6 +28,8 @@ const styles = StyleSheet.create({
         height: 20,
         borderRightWidth: 1,
         textAlign: 'center',
+        paddingTop: '5px',
+        fontSize: 9,
     },
 
     from: {
@@ -34,6 +38,8 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         textAlign: 'center',
         height: 20,
+        paddingTop: '5px',
+        fontSize: 9,
     },
     to: {
         width: '13%',
@@ -41,6 +47,8 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         textAlign: 'center',
         height: 20,
+        paddingTop: '5px',
+        fontSize: 9,
         // paddingRight: 8,
     },
     depTime: {
@@ -49,6 +57,8 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         textAlign: 'center',
         height: 20,
+        paddingTop: '5px',
+        fontSize: 9,
         // paddingRight: 8,
     },
     arrTime: {
@@ -57,6 +67,8 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         textAlign: 'center',
         height: 20,
+        paddingTop: '5px',
+        fontSize: 9,
         // paddingRight: 8,
     },
     airline: {
@@ -65,6 +77,8 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         textAlign: 'center',
         height: 20,
+        paddingTop: '5px',
+        fontSize: 9,
         // paddingRight: 8,
     },
     tourCode: {
@@ -73,6 +87,8 @@ const styles = StyleSheet.create({
         // borderRightWidth: 1,
         textAlign: 'center',
         height: 20,
+        paddingTop: '5px',
+        fontSize: 9,
         // paddingRight: 8,
     },
 
