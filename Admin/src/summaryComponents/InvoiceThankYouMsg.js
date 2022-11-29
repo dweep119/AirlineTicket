@@ -28,6 +28,11 @@ const styles = StyleSheet.create({
         fontWeight: 700,
         fontStyle: 'bold',
     },
+    specificationTitle_f9: {
+        fontSize: 9,
+        fontWeight: 700,
+        fontStyle: 'bold',
+    },
     specificationTitle_w80: {
         fontSize: 11,
         fontWeight: 700,
@@ -65,6 +70,7 @@ const styles = StyleSheet.create({
         fontStyle: 'bold',
         width: 10,
         marginTop: 3,
+        marginLeft: '55px',
     },
     specificationItems_w20: {
         flexDirection: 'column',
@@ -72,6 +78,7 @@ const styles = StyleSheet.create({
         // marginLeft: 15,
         fontSize: 9,
         width: 10,
+        marginLeft: '55px',
     },
     specificationTitle_mt10_w20: {
         fontSize: 12,
@@ -79,6 +86,7 @@ const styles = StyleSheet.create({
         fontStyle: 'bold',
         marginTop: '10px',
         width: 10,
+        marginLeft: '55px',
     },
     specificationTitle_mt10_fs_w20: {
         fontSize: 13,
@@ -86,6 +94,7 @@ const styles = StyleSheet.create({
         fontStyle: 'bold',
         marginTop: '10px',
         width: 10,
+        marginLeft: '55px',
     },
     specificationTitle_last: {
         fontSize: 9,
@@ -110,11 +119,11 @@ const styles = StyleSheet.create({
         marginTop: '10px',
     },
     contactUsTitle: {
-        fontSize: 11,
+        fontSize: 9,
         marginTop: '20px',
     },
     contactInfoTitle: {
-        fontSize: 11,
+        fontSize: 9,
         marginTop: '70px',
     },
     specificationTitle2: {
@@ -123,11 +132,11 @@ const styles = StyleSheet.create({
         fontSize: 11,
     },
     width60: {
-        width: '53%',
+        width: '63%',
         flexDirection: "column",
     },
     width40: {
-        width: '47%',
+        width: '37%',
         flexDirection: "column",
     },
     d_col: {
@@ -277,7 +286,7 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                     Passenger Contact Information
                 </Text>
                 <Link
-                    style={styles.specificationTitle}
+                    style={styles.specificationTitle_f9}
                     src="www.google.com"
                 >
                     prathamtour@yahoo.co.in
@@ -289,13 +298,13 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 <Text style={styles.contactUsTitle}>
                     From Outside india :
                 </Text>
-                <Text style={styles.specificationTitle}>
+                <Text style={styles.specificationTitle_f9}>
                     +91 987 180 3333 | +91 965 400 3333
                 </Text>
                 <Text style={styles.contactUsTitle}>
                     From Within india :
                 </Text>
-                <Text style={styles.specificationTitle}>
+                <Text style={styles.specificationTitle_f9}>
                     +91 987 180 3333 | +91 965 400 3333
                 </Text>
 
