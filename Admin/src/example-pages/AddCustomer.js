@@ -9,7 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import Invoice from '../summaryComponents/Invoice'
+import Invoice from '../summaryComponents/Invoice';
+import axios from "axios";
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
@@ -23,7 +24,6 @@ import {
 
 import { PageTitle } from '../layout-components';
 import moment from 'moment/moment';
-import Customer from './Customer';
 import { PDFViewer } from '@react-pdf/renderer'
 import { PDFDownloadLink } from '@react-pdf/renderer';
 
@@ -128,6 +128,7 @@ export default function AddProduct() {
         const file = new File([theBlob], fileName, {
             type: theBlob.type,
         });
+        console.log('file: ', file);
         if (counter === 0) {
             setcounter(counter + 1);
             setPdfPath(file);
@@ -152,53 +153,6 @@ export default function AddProduct() {
 
     const onSubmitBtnClk = () => {
         console.log(parentInputFieldsFinal)
-        const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-
-        let lastNo =
-            parseInt(
-                customer
-                    .sort((a, b) => a.attributes.createdAt.localeCompare(b.attributes.createdAt))
-                [customer?.length > 1 ? customer?.length - 2 : customer?.length - 1]?.attributes.bookingRefNo.split('-')[3] || 0
-            ) + 1;
-
-        let applicationNo = 'PT-' + mm + '-' + dd + '-' + lastNo;
-        setbookingRefNo(applicationNo);
-        console.log('applicationNo: ', applicationNo);
-
-
-
-        setInvoice({
-
-            ...invoice,
-
-            // "trans_date": newDat,
-            "customer_name": name,
-            "customer_mobile": '1234567890',
-            "customer_email": 'email123@gmail.com',
-            "customer_airline": airLine,
-            "pnr": pnr,
-            "ref_no": applicationNo,
-            "booked": moment().format("ddd, MMM. D, YYYY HH:mm"),
-            "status": 'Confirmed',
-            "from": from,
-            "to": to,
-            "flightNo": flightNo,
-            "arrDate": moment(arrDate).format('ddd MMM. D, YYYY'),
-            "arrTime": moment(arrTime).format("HH:mm"),
-            "depDate": moment(depDate).format('ddd MMM. D, YYYY'),
-            "depTime": moment(depTime).format("HH:mm"),
-            "passengers": parentInputFieldsFinal
-        });
-
-        setshowPdf(true);
-        setfileName(name + '.pdf');
-    }
-
-
-    const onSaveBtnClick = () => {
-
         if (airLine === '') {
             setAirLineErr(true)
         }
@@ -223,10 +177,57 @@ export default function AddProduct() {
                 appearance: 'error',
                 autoDismiss: true,
             });
+        } else {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+
+            let lastNo =
+                parseInt(
+                    customer
+                        .sort((a, b) => a.attributes.createdAt.localeCompare(b.attributes.createdAt))
+                    [customer?.length - 1]?.attributes.bookingRefNo.split('-')[3] || 0
+                ) + 1;
+
+            let applicationNo = 'PT-' + mm + '-' + dd + '-' + lastNo;
+            setbookingRefNo(applicationNo);
+            console.log('applicationNo: ', applicationNo);
+
+
+
+            setInvoice({
+
+                ...invoice,
+
+                // "trans_date": newDat,
+                "customer_name": name,
+                "customer_mobile": '1234567890',
+                "customer_email": 'email123@gmail.com',
+                "customer_airline": airLine,
+                "pnr": pnr,
+                "ref_no": applicationNo,
+                "booked": moment().format("ddd, MMM. D, YYYY HH:mm"),
+                "status": 'Confirmed',
+                "from": from,
+                "to": to,
+                "flightNo": flightNo,
+                "arrDate": moment(arrDate).format('ddd MMM. D, YYYY'),
+                "arrTime": moment(arrTime).format("HH:mm"),
+                "depDate": moment(depDate).format('ddd MMM. D, YYYY'),
+                "depTime": moment(depTime).format("HH:mm"),
+                "passengers": parentInputFieldsFinal
+            });
+
+            setshowPdf(true);
+            setfileName(name + '.pdf');
         }
-        else {
-            const finalData = {};
+
+    }
+
+    const onSaveTicketBtnClick = async () => {
+        try {
             let passengerItems = [];
+            // eslint-disable-next-line
             parentInputFieldsFinal.map((item, index) => {
                 let obj = {
                     "name": item.name
@@ -239,66 +240,58 @@ export default function AddProduct() {
             let finalArrTime = moment(arrTime).format("HH:mm:ss.SSS")
             let finalDepDate = moment(depDate).format('YYYY-MM-DD')
             let finalArrDate = moment(arrDate).format('YYYY-MM-DD')
-
-            finalData["airlineName"] = airLine;
-            finalData["customerName"] = name;
-            finalData["pnrNo"] = pnr;
-            finalData["from"] = from;
-            finalData["to"] = to;
-            finalData["depDate"] = finalDepDate;
-            finalData["depTime"] = finalDepTime;
-            finalData["arrDate"] = finalArrDate;
-            finalData["arrTime"] = finalArrTime;
-            finalData["flightNo"] = flightNo;
-            finalData["flightFare"] = flightFare;
-            finalData["bookingRefNo"] = bookingRefNo;
-            finalData["passengers"] = passengerItems;
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${token.jwt}`
-                },
-                body: JSON.stringify({ "data": finalData })
+            const finalData = {
+                airlineName: airLine,
+                customerName: name,
+                pnrNo: pnr,
+                from: from,
+                to: to,
+                depDate: finalDepDate,
+                depTime: finalDepTime,
+                arrDate: finalArrDate,
+                arrTime: finalArrTime,
+                flightNo: flightNo,
+                flightFare: flightFare,
+                bookingRefNo: bookingRefNo,
+                passengers: passengerItems,
             };
-            console.log('requestOptions: ', requestOptions);
-
-            fetch('http://localhost:1337/api/airline-tickets', requestOptions).then(response => response.json())
-                .then(data => {
-                    console.log('data: ', data);
-
-                    if (data.status) {
-                        addToast(data.message, {
-                            appearance: 'success',
-                            autoDismiss: true,
-                        })
-                        history.push('/customer')
-                    } else {
-                        addToast(data.message, {
-                            appearance: 'error',
-                            autoDismiss: true,
-                        })
-                    }
+            const resData = await axios({
+                method: "POST",
+                url: "http://localhost:1337/api/airline-tickets",
+                data: { "data": finalData }
+            });
+            console.log('resData: ', resData);
+            const formData = new FormData();
+            formData.append("files", pdfpath);
+            const id = resData.data.data.id;
+            formData.append("ref", "api::airline-ticket.airline-ticket"); //name of content type
+            formData.append("refId", id); //id of content type
+            formData.append("field", "ticketFile"); //name of key for the content type
+            fetch("http://localhost:1337/api/upload", {
+                method: "POST",
+                body: formData
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log("Success:", result);
+                    setshowPdf(false);
+                    history.push('/customer')
                 })
                 .catch((error) => {
-                    console.log('error: ', error);
-                    // onSaveBtnClick();
+                    console.error("Error:", error);
                 });
-
+            console.log(resData.data.id);
+        } catch (error) {
+            console.log(error);
         }
 
     }
 
     const removeMoreFields = (e, index) => {
-        // setloading(true);
         e.preventDefault();
         let data = [...parentInputFieldsFinal];
-
         data.splice(index, 1);
         setParentInputFieldsFinal(data);
-        // setTimeout(() => {
-        //     setloading(false);
-        // }, 2000);
     }
 
     return (
@@ -606,7 +599,7 @@ export default function AddProduct() {
                                 <div style={{ textAlign: "right", width: '100%', marginTop: '10px' }}>
                                     <Button variant="outlined" color="primary" onClick={() => onSubmitBtnClk()} >Generate PDF</Button>
                                     <Button variant="outlined" color="default" style={{ marginRight: '15px' }} onClick={() => history.push('/customer')}>Cancel</Button>
-                                    <Button variant="outlined" color="primary" onClick={() => onSaveBtnClick()}>Save</Button>
+                                    {/* <Button variant="outlined" color="primary" onClick={() => onSaveBtnClick()}>Save</Button> */}
                                 </div>
                             </Grid>
                         </div>
@@ -629,7 +622,7 @@ export default function AddProduct() {
 
                             }
                         </PDFDownloadLink>
-                        <Button variant="outlined" color="primary" >Save</Button>
+                        <Button variant="outlined" color="primary" onClick={() => onSaveTicketBtnClick()} >Save</Button>
                         <Button variant="outlined" color="default" style={{ marginLeft: '15px' }} onClick={() => { setshowPdf(false); setcounter(0); }}>Cancel</Button>
                     </>
                     :

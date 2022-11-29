@@ -20,7 +20,7 @@ const LeftSidebar = props => {
   return (
     <Fragment>
       {
-        data?.email ? (
+        data?.success ? (
           <div className={clsx('app-wrapper', contentBackground)}>
             <Header />
             <div

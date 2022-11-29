@@ -16,6 +16,7 @@ import { LeftSidebar } from './layout-blueprints';
 
 // Example Pages
 const DashboardDefault = lazy(() => import('./example-pages/DashboardDefault'));
+const Login = lazy(() => import('./example-pages/Login'));
 
 const Customer = lazy(() => import('./example-pages/Customer'));
 const EditCustomer = lazy(() => import('./example-pages/EditCustomer'));
@@ -66,6 +67,7 @@ const Routes = () => {
                   exit="out"
                   variants={pageVariants}
                   transition={pageTransition}>
+                  <Route exact path='/login' component={Login} />
                   <PrivateRoute exact path='/' />
                   <PrivateRoute exact path="/dashboard" component={DashboardDefault} />
    

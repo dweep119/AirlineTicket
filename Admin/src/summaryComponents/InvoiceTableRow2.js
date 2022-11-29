@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 
 const borderColor = '#71706E'

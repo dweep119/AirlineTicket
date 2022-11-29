@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet } from '@react-pdf/renderer';
+import { View, Image, StyleSheet } from '@react-pdf/renderer';
 import logo from '../assets/images/Spicejet.png';
 import logo2 from '../assets/images/Indigo.png';
 import logo3 from '../assets/images/Air-asia-logo2.png';
@@ -88,19 +88,19 @@ const BillFrom = ({ invoice }) => (
   <View style={styles.headerContainer}>
     <div style={{ margin: 'auto' }}>
       {
-        invoice.customer_airline == 'SpiceJet' ?
+        invoice.customer_airline === 'SpiceJet' ?
           <Image style={styles.logo_spicejet} src={logo} />
           :
-          invoice.customer_airline == 'Indigo' ?
+          invoice.customer_airline === 'Indigo' ?
             <Image style={styles.logo_indigo} src={logo2} />
             :
-            invoice.customer_airline == 'AirAsia' ?
+            invoice.customer_airline === 'AirAsia' ?
               <Image style={styles.logo} src={logo3} />
               :
-              invoice.customer_airline == 'Vistara' ?
+              invoice.customer_airline === 'Vistara' ?
                 <Image style={styles.logo_vistara} src={logo4} />
                 :
-                invoice.customer_airline == 'GoFirst' ?
+                invoice.customer_airline === 'GoFirst' ?
                   <Image style={styles.logo} src={logo5} />
                   : null
       }

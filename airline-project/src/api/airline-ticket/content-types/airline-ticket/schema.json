@@ -38,15 +38,12 @@
       "multiple": false,
       "required": false,
       "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
+        "files"
       ]
     },
     "bookingRefNo": {
       "type": "string",
-      "unique": true,
+      "unique": false,
       "required": true
     },
     "depDate": {

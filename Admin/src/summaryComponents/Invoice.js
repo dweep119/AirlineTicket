@@ -6,8 +6,6 @@ import BillTo from './BillTo'
 // import InvoiceNo from './InvoiceNo'
 import InvoiceItemsTable from './InvoiceItemsTable'
 import InvoiceThankYouMsg from './InvoiceThankYouMsg'
-import * as moment from 'moment'
-// import logo from '../assets/images/AnjaliEnterpriselogo-removebg-preview.png';
 
 
 const styles = StyleSheet.create({
@@ -29,8 +27,7 @@ const styles = StyleSheet.create({
     }
   });
 
-  var today = new Date();
-  let today1 = moment(today).format("DD-MM-YYYY");
+
 
   
   const Invoice = ({invoice}) => (

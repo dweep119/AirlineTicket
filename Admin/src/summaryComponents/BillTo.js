@@ -157,19 +157,19 @@ const BillTo = ({ invoice, today }) => (
       </div>
       <div style={styles.to_invoice2}>
       {
-        invoice.customer_airline == 'SpiceJet' ?
+        invoice.customer_airline === 'SpiceJet' ?
           <Image style={styles.image} src={image2} />
           :
-          invoice.customer_airline == 'Indigo' ?
+          invoice.customer_airline === 'Indigo' ?
             <Image style={styles.image} src={image1} />
             :
-            invoice.customer_airline == 'AirAsia' ?
+            invoice.customer_airline === 'AirAsia' ?
               <Image style={styles.image} src={image2} />
               :
-              invoice.customer_airline == 'Vistara' ?
+              invoice.customer_airline === 'Vistara' ?
                 <Image style={styles.image} src={image3} />
                 :
-                invoice.customer_airline == 'GoFirst' ?
+                invoice.customer_airline === 'GoFirst' ?
                   <Image style={styles.image} src={image1} />
                   : null
       }
