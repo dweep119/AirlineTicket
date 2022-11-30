@@ -26,6 +26,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   logo: {
+    width: 150,
+    height: 80,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '10px',
+  },
+  logo_gofirst: {
     width: 100,
     height: 80,
     marginLeft: 'auto',
@@ -33,8 +40,8 @@ const styles = StyleSheet.create({
     marginTop: '10px',
   },
   logo_vistara: {
-    width: 180,
-    height: 70,
+    width: 220,
+    height: 80,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: '10px',
@@ -49,13 +56,6 @@ const styles = StyleSheet.create({
   logo_indigo: {
     width: 150,
     height: 80,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: '10px',
-  },
-  logo_go: {
-    width: 100,
-    height: 100,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: '10px',
@@ -101,7 +101,7 @@ const BillFrom = ({ invoice }) => (
                 <Image style={styles.logo_vistara} src={logo4} />
                 :
                 invoice.customer_airline === 'GoFirst' ?
-                  <Image style={styles.logo} src={logo5} />
+                  <Image style={styles.logo_gofirst} src={logo5} />
                   : null
       }
     </div>

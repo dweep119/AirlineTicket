@@ -29,22 +29,16 @@ const styles = StyleSheet.create({
         fontStyle: 'bold',
     },
     specificationTitle_f9: {
-        fontSize: 9,
-        fontWeight: 700,
-        fontStyle: 'bold',
-    },
-    specificationTitle_w80: {
         fontSize: 11,
         fontWeight: 700,
         fontStyle: 'bold',
-        width: 90,
     },
     specificationItems_w80: {
         flexDirection: 'column',
         marginTop: 3,
         // marginLeft: 15,
         fontSize: 9,
-        width: 90,
+        width: '35%',
     },
     specificationTitle_mt10_w80: {
         fontSize: 12,
@@ -54,11 +48,11 @@ const styles = StyleSheet.create({
         width: 90,
     },
     specificationTitle_mt10_fs_w80: {
-        fontSize: 13,
+        fontSize: 11,
         fontWeight: 700,
         fontStyle: 'bold',
         marginTop: '10px',
-        width: 90,
+        width: '35%',
     },
 
 
@@ -68,17 +62,17 @@ const styles = StyleSheet.create({
         fontSize: 9,
         fontWeight: 700,
         fontStyle: 'bold',
-        width: 10,
+        width: 5,
         marginTop: 3,
-        marginLeft: '55px',
+        marginLeft: '85px',
     },
     specificationItems_w20: {
         flexDirection: 'column',
         marginTop: 3,
         // marginLeft: 15,
         fontSize: 9,
-        width: 10,
-        marginLeft: '55px',
+        width: '10%',
+        marginLeft: '85px',
     },
     specificationTitle_mt10_w20: {
         fontSize: 12,
@@ -86,15 +80,15 @@ const styles = StyleSheet.create({
         fontStyle: 'bold',
         marginTop: '10px',
         width: 10,
-        marginLeft: '55px',
+        marginLeft: '85px',
     },
     specificationTitle_mt10_fs_w20: {
-        fontSize: 13,
+        fontSize: 9,
         fontWeight: 700,
         fontStyle: 'bold',
         marginTop: '10px',
-        width: 10,
-        marginLeft: '55px',
+        width: 5,
+        marginLeft: '85px',
     },
     specificationTitle_last: {
         fontSize: 9,
@@ -119,12 +113,14 @@ const styles = StyleSheet.create({
         marginTop: '10px',
     },
     contactUsTitle: {
-        fontSize: 9,
+        fontSize: 11,
         marginTop: '20px',
     },
     contactInfoTitle: {
-        fontSize: 9,
+        fontSize: 11,
         marginTop: '70px',
+        fontWeight: 700,
+        fontStyle: 'bold',
     },
     specificationTitle2: {
         borderBottom: 1,
@@ -136,7 +132,8 @@ const styles = StyleSheet.create({
         flexDirection: "column",
     },
     width40: {
-        width: '37%',
+        width: '35%',
+        // marginRight: '4%',
         flexDirection: "column",
     },
     d_col: {
@@ -148,19 +145,19 @@ const InvoiceThankYouMsg = ({ invoice }) => (
         <View style={styles.titleContainer2}>
             <div style={styles.width60}>
                 <Text style={styles.specificationTitle}>
-                    Base Fare +  Fuel Surcharge:-
+                    Base Fare +  Fuel Surcharge
                 </Text>
                 <div style={styles.d_col} >
                     <Text style={styles.specificationItems_w80}>
-                        <li>Base Fare (89%):</li>
+                        <li>Base Fare (89%)</li>
                     </Text>
                     <Text style={styles.specificationTitle_w20}>
-                        <li>36250.0</li>
+                        <li>{parseFloat((invoice.flightFare*89)/100).toFixed(2)}</li>
                     </Text>
                 </div>
                 <div style={styles.d_col} >
                     <Text style={styles.specificationItems_w80}>
-                        <li> Fuel Surcharge :</li>
+                        <li>Fuel Surcharge</li>
                     </Text>
                     <Text style={styles.specificationItems_w20}>
                         <li> 0</li>
@@ -168,12 +165,12 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 </div>
 
                 <Text style={styles.specificationTitle_mt10}>
-                    Other Fees and Taxes:-
+                    Other Fees and Taxes
                 </Text>
 
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
-                        <li>Passenger Service Fee:</li>
+                        <li>Passenger Service Fee</li>
                     </Text>
                     <Text style={styles.specificationItems_w20}>
                         <li> 0</li>
@@ -181,25 +178,25 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 </div>
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
-                        <li>Service Charge and Taxes (7%):</li>
+                        <li>Service Charge and Taxes (7%)</li>
                     </Text>
-                    <Text style={styles.specificationItems_w20}>
-                        <li>2200.00</li>
+                    <Text style={styles.specificationTitle_w20}>
+                        <li>{parseFloat((invoice.flightFare*7)/100).toFixed(2)}</li>
                     </Text>
                 </div>
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
                         <li>Cute Fee (4%)</li>
                     </Text>
-                    <Text style={styles.specificationItems_w20}>
-                        <li>550.00</li>
+                    <Text style={styles.specificationTitle_w20}>
+                        <li>{parseFloat((invoice.flightFare*4)/100).toFixed(2)}</li>
                     </Text>
                 </div>
 
                 <div style={styles.d_col}>
 
                     <Text style={styles.specificationItems_w80}>
-                        <li>Infant Fee :</li>
+                        <li>Infant Fee</li>
                     </Text>
                     <Text style={styles.specificationItems_w20}>
                         <li>0</li>
@@ -207,13 +204,13 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 </div>
 
                 <Text style={styles.specificationTitle_mt10_w80}>
-                    <li>SSR Details:-</li>
+                    <li>SSR Details</li>
                 </Text>
 
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
 
-                        <li>Baggage:</li>
+                        <li>Baggage</li>
                     </Text>
                     <Text style={styles.specificationItems_w20}>
 
@@ -222,7 +219,7 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 </div>
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
-                        <li>Meals:</li>
+                        <li>Meals</li>
                     </Text>
                     <Text style={styles.specificationItems_w20}>
                         <li>0</li>
@@ -231,7 +228,7 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
 
-                        <li>Seats:</li>
+                        <li>Seats</li>
                     </Text>
                     <Text style={styles.specificationItems_w20}>
 
@@ -241,7 +238,7 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
 
-                        <li>Bag Out First:</li>
+                        <li>Bag Out First</li>
                     </Text>
                     <Text style={styles.specificationItems_w20}>
                         <li>0</li>
@@ -251,7 +248,7 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
 
-                        <li>Priority Check-in :</li>
+                        <li>Priority Check-in</li>
                     </Text>
                     <Text style={styles.specificationItems_w20}>
 
@@ -262,17 +259,17 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 <div style={styles.d_col}>
                     <Text style={styles.specificationTitle_mt10_fs_w80}>
 
-                        <li>Total Price :</li>
+                        <li>Total Price</li>
                     </Text>
                     <Text style={styles.specificationTitle_mt10_fs_w20}>
 
-                        <li>39,000</li>
+                        <li>{parseFloat(invoice.flightFare).toFixed(2)}</li>
                     </Text>
                 </div>
 
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
-                        <li>Discount:</li>
+                        <li>Discount</li>
                     </Text>
                     <Text style={styles.specificationItems_w20}>
                         <li>0</li>
@@ -287,12 +284,13 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 </Text>
                 <Link
                     style={styles.specificationTitle_f9}
-                    src="www.google.com"
+                    src="mailto:prathamtour@yahoo.co.in"
                 >
                     prathamtour@yahoo.co.in
                 </Link>
                 <Text style={styles.contactUsTitle}>
                     Please Contact us to update your contact
+                
                     Information:
                 </Text>
                 <Text style={styles.contactUsTitle}>

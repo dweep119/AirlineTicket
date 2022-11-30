@@ -211,6 +211,7 @@ export default function AddProduct() {
                 "from": from,
                 "to": to,
                 "flightNo": flightNo,
+                "flightFare": flightFare,
                 "arrDate": moment(arrDate).format('ddd MMM. D, YYYY'),
                 "arrTime": moment(arrTime).format("HH:mm"),
                 "depDate": moment(depDate).format('ddd MMM. D, YYYY'),
@@ -582,7 +583,7 @@ export default function AddProduct() {
                                                 />
                                             </Grid>
                                             <div className='ml-3 mt-3'>
-                                                <Button variant="outlined" color="primary" onClick={addProduct}> Add More</Button>
+                                                <Button className='mr-3' variant="outlined" color="primary" onClick={addProduct}> Add More</Button>
                                                 {
                                                     parentInputFieldsFinal.length > 1 ?
                                                         <Button variant="outlined" onClick={(e) => removeMoreFields(e, index)} >Remove</Button>
@@ -598,7 +599,7 @@ export default function AddProduct() {
                                 <Divider className="w-100 mt-5" />
                                 <div style={{ textAlign: "right", width: '100%', marginTop: '10px' }}>
                                     <Button variant="outlined" color="primary" onClick={() => onSubmitBtnClk()} >Generate PDF</Button>
-                                    <Button variant="outlined" color="default" style={{ marginRight: '15px' }} onClick={() => history.push('/customer')}>Cancel</Button>
+                                    <Button variant="outlined" color="default" style={{ marginLeft: '15px' }} onClick={() => history.push('/customer')}>Cancel</Button>
                                     {/* <Button variant="outlined" color="primary" onClick={() => onSaveBtnClick()}>Save</Button> */}
                                 </div>
                             </Grid>
