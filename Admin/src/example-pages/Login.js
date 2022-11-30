@@ -20,7 +20,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import logoPath from "../assets/images/BhavnaToursLogo.png";
 import useToken from '../useToken';
-// import { loginUser } from "../libs/api";
+import { loginUser } from "../libs/api";
 
 import { setUserData } from '../reducers/ThemeOptions';
 
@@ -57,13 +57,13 @@ function Login(props) {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        // const token = await loginUser({
-        //     userName,
-        //     password
-        // });
-        const token = { "success": true, "response": { "id": "3c66c01c-5d87-434e-9ede-e9896b73acee", "firstName": "Dweep", "lastName": "Patel", "userName": "dweep", "email": "dweep.neha@gmail.com", "mobile": "9978532084" } }
+        const token = await loginUser({
+            "identifier": userName,
+            "password": password
+        });
+        // const token = { "success": true, "response": { "id": "3c66c01c-5d87-434e-9ede-e9896b73acee", "firstName": "Dweep", "lastName": "Patel", "userName": "dweep", "email": "dweep.neha@gmail.com", "mobile": "9978532084" } }
         setToken(token);
-        setUserData(token.response);
+        setUserData(token.user);
         props.history.push('/dashboard');
         window.location.reload(false);
     }

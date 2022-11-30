@@ -92,7 +92,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props => {
-        return token ?
+        return token.jwt ?
           props.match.path === "/" ?
             <Redirect
               to={{
