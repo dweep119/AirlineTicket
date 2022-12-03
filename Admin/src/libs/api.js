@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-const javaURL = "http://localhost:1337/api";
+const javaURL = "https://api.prathamtour.com/api";
 
 export async function loginUser(credentials) {
   const data = await fetch(`${javaURL}/auth/local`, {

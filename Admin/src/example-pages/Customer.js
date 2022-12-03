@@ -129,7 +129,7 @@ export default function Customer() {
   }, []);
 
   const callAPI = () => {
-    fetch('http://localhost:1337/api/airline-tickets').then(response => response.json())
+    fetch('https://api.prathamtour.com/api/airline-tickets').then(response => response.json())
       .then(data => {
         console.log('data: ', data);
         setCustomer(data['data']);
@@ -165,7 +165,7 @@ export default function Customer() {
       const requestOptions = {
         method: 'DELETE',
       };
-      fetch(`http://localhost:1337/api/airline-tickets/${selectedId}`, requestOptions).then(response => response.json())
+      fetch(`https://api.prathamtour.com/api/airline-tickets/${selectedId}`, requestOptions).then(response => response.json())
         .then(data => {
          
           if (data.status) {
