@@ -180,7 +180,7 @@ export default function EditCustomer() {
     }, []);
 
     const callAPI = () => {
-        fetch('http://localhost:1337/api/airline-tickets').then(response => response.json())
+        fetch('https://api.prathamtour.com/api/airline-tickets').then(response => response.json())
             .then(data => {
                 console.log('data: ', data);
                 setCustomer(data['data']);
@@ -296,7 +296,7 @@ export default function EditCustomer() {
             };
             const resData = await axios({
                 method: "PUT",
-                url: `http://localhost:1337/api/airline-tickets/${data.id}`,
+                url: `https://api.prathamtour.com/api/airline-tickets/${data.id}`,
                 data: { "data": finalData }
             });
             console.log('resData: ', resData);
@@ -306,7 +306,7 @@ export default function EditCustomer() {
             formData.append("ref", "api::airline-ticket.airline-ticket"); //name of content type
             formData.append("refId", id); //id of content type
             formData.append("field", "ticketFile"); //name of key for the content type
-            fetch("http://localhost:1337/api/upload", {
+            fetch("https://api.prathamtour.com/api/upload", {
                 method: "POST",
                 body: formData
             })

@@ -31,7 +31,7 @@ export default function LivePreviewExample() {
   }, []);
 
   const callAPI = () => {
-    fetch('http://localhost:1337/api/airline-tickets?populate=*').then(response => response.json())
+    fetch('https://api.prathamtour.com/api/airline-tickets?populate=*').then(response => response.json())
       .then(data => {
         let cusLen = data['data'];
         let total = 0;
@@ -54,7 +54,7 @@ export default function LivePreviewExample() {
   }
 
   const callAPIForTickets = () => {
-    fetch('http://localhost:1337/api/upload/files').then(response => response.json())
+    fetch('https://api.prathamtour.com/api/upload/files').then(response => response.json())
       .then(data => {
         setTickets(data.length);
         setloading(false);
