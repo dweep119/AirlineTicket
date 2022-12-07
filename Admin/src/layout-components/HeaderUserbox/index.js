@@ -53,8 +53,8 @@ function HeaderUserbox(props) {
           <Avatar sizes="44" alt="Emma Taylor" src={avatar4} />
         </Box>
         <div className="d-none d-xl-block pl-3">
-          <div className="font-weight-bold pt-2 line-height-1">Dweep Patel</div>
-          <span className="text-white-50">Director (AirlineTicket)</span>
+          <div className="font-weight-bold pt-2 line-height-1">Tushar Patel</div>
+          <span className="text-white-50">Director (Pratham Tours)</span>
         </div>
         <span className="pl-1 pl-xl-3">
           <FontAwesomeIcon icon={['fas', 'angle-down']} className="opacity-5" />
@@ -90,8 +90,8 @@ function HeaderUserbox(props) {
               </span>
             </div>
             <Divider className="w-100 mt-2" />
-            <ListItem button>My Account</ListItem>
-            <ListItem button>Profile settings</ListItem>
+            {/* <ListItem button>My Account</ListItem>
+            <ListItem button>Profile settings</ListItem> */}
             <Divider className="w-100" />
             <ListItem button onClick={onSignOutClick}>Sign out</ListItem>
           </List>

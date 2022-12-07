@@ -1,19 +1,19 @@
 {
-  "short_name": "Rang Angels",
-  "name": "Rang Angels International Pre School",
+  "short_name": "Pratham Tours",
+  "name": "Pratham Tours",
   "icons": [
     {
-      "src": "AnjaliEnterpriselogo-removebg-preview.png",
+      "src": "BhavnaToursLogo.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "AnjaliEnterpriselogo-removebg-preview.png",
+      "src": "BhavnaToursLogo.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "AnjaliEnterpriselogo-removebg-preview.png",
+      "src": "BhavnaToursLogo.png",
       "type": "image/png",
       "sizes": "512x512"
     }	    

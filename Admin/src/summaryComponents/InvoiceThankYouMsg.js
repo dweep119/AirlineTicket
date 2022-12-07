@@ -32,6 +32,13 @@ const styles = StyleSheet.create({
         fontSize: 11,
         fontWeight: 700,
         fontStyle: 'bold',
+        color: '#3494a4'
+    },
+    specificationTitle_f91: {
+        fontSize: 11,
+        fontWeight: 700,
+        fontStyle: 'bold',
+        color: '#989999'
     },
     specificationItems_w80: {
         flexDirection: 'column',
@@ -115,6 +122,7 @@ const styles = StyleSheet.create({
     contactUsTitle: {
         fontSize: 11,
         marginTop: '20px',
+        color: '#989999'
     },
     contactInfoTitle: {
         fontSize: 11,
@@ -149,10 +157,10 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 </Text>
                 <div style={styles.d_col} >
                     <Text style={styles.specificationItems_w80}>
-                        <li>Base Fare (89%)</li>
+                        <li>Base Fare</li>
                     </Text>
                     <Text style={styles.specificationTitle_w20}>
-                        <li>{parseFloat((invoice.flightFare*89)/100).toFixed(2)}</li>
+                        <li>{parseFloat((invoice.flightFare * 89) / 100).toFixed(2)}</li>
                     </Text>
                 </div>
                 <div style={styles.d_col} >
@@ -178,18 +186,18 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 </div>
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
-                        <li>Service Charge and Taxes (7%)</li>
+                        <li>Service Charge and Taxes</li>
                     </Text>
                     <Text style={styles.specificationTitle_w20}>
-                        <li>{parseFloat((invoice.flightFare*7)/100).toFixed(2)}</li>
+                        <li>{parseFloat((invoice.flightFare * 7) / 100).toFixed(2)}</li>
                     </Text>
                 </div>
                 <div style={styles.d_col}>
                     <Text style={styles.specificationItems_w80}>
-                        <li>Cute Fee (4%)</li>
+                        <li>Cute Fee</li>
                     </Text>
                     <Text style={styles.specificationTitle_w20}>
-                        <li>{parseFloat((invoice.flightFare*4)/100).toFixed(2)}</li>
+                        <li>{parseFloat((invoice.flightFare * 4) / 100).toFixed(2)}</li>
                     </Text>
                 </div>
 
@@ -290,19 +298,19 @@ const InvoiceThankYouMsg = ({ invoice }) => (
                 </Link>
                 <Text style={styles.contactUsTitle}>
                     Please Contact us to update your contact
-                
+
                     Information:
                 </Text>
                 <Text style={styles.contactUsTitle}>
                     From Outside india :
                 </Text>
-                <Text style={styles.specificationTitle_f9}>
+                <Text style={styles.specificationTitle_f91}>
                     +91 987 180 3333 | +91 965 400 3333
                 </Text>
                 <Text style={styles.contactUsTitle}>
                     From Within india :
                 </Text>
-                <Text style={styles.specificationTitle_f9}>
+                <Text style={styles.specificationTitle_f91}>
                     +91 987 180 3333 | +91 965 400 3333
                 </Text>
 
