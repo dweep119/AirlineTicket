@@ -1,85 +1,71 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { Grid, Card, CardContent, Button, Divider } from '@material-ui/core';
+import { Grid, Card, CardContent, Button } from '@material-ui/core';
+import { useHistory } from "react-router-dom";
+import { css } from "@emotion/react";
+import HashLoader from "react-spinners/HashLoader";
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: black;
+  height: 100%;
+  
+`;
 
-import Chart from 'react-apexcharts';
 export default function LivePreviewExample() {
-  const chart30Options = {
-    chart: {
-      toolbar: {
-        show: false
-      },
-      sparkline: {
-        enabled: true
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    colors: ['#3c44b1'],
-    stroke: {
-      color: '#4191ff',
-      curve: 'smooth',
-      width: 4
-    },
-    xaxis: {
-      crosshairs: {
-        width: 1
-      }
-    },
-    yaxis: {
-      min: 0
-    },
-    legend: {
-      show: false
-    }
-  };
-  const chart30Data = [
-    {
-      name: 'Customers',
-      data: [47, 38, 56, 24, 45, 54, 38, 47, 38, 56, 24, 56, 24, 65]
-    }
-  ];
 
-  const chart31Options = {
-    chart: {
-      toolbar: {
-        show: false
-      },
-      sparkline: {
-        enabled: true
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    colors: ['#f4772e'],
-    stroke: {
-      color: '#4191ff',
-      curve: 'smooth',
-      width: 3
-    },
-    xaxis: {
-      crosshairs: {
-        width: 1
-      }
-    },
-    yaxis: {
-      min: 0
-    },
-    legend: {
-      show: false
-    }
-  };
-  const chart31Data = [
-    {
-      name: 'Sales',
-      data: [47, 38, 56, 24, 45, 54, 38, 47, 38, 56, 24, 56, 24, 65]
-    }
-  ];
 
+  const history = useHistory();
+  const [customerLength, setCustomerLength] = React.useState(0);
+  const [revenue, setRevenue] = React.useState(0);
+  const [tickets, setTickets] = React.useState(0);
+  const [loading, setloading] = useState(true);
+  let color = "#167bff";
+
+
+  useEffect(() => {
+    callAPI();
+    // eslint-disable-next-line
+  }, []);
+
+  const callAPI = () => {
+    fetch('https://api.prathamtour.com/api/airline-tickets?populate=*').then(response => response.json())
+      .then(data => {
+        let cusLen = data['data'];
+        let total = 0;
+        if (cusLen.length > 0) {
+          // eslint-disable-next-line
+          cusLen.map(item => {
+            let price = item.attributes.flightFare;
+            total = total + Math.round(price);
+          })
+          setRevenue(total);
+        }
+        setCustomerLength(cusLen.length);
+        setloading(false);
+
+        callAPIForTickets();
+      })
+      .catch((error) => {
+        // callAPI();
+      });
+  }
+
+  const callAPIForTickets = () => {
+    fetch('https://api.prathamtour.com/api/upload/files').then(response => response.json())
+      .then(data => {
+        setTickets(data.length);
+        setloading(false);
+      })
+      .catch((error) => {
+        // callAPI();
+      });
+  }
+
+  if (loading)
+    return <div className='loaderClass'><HashLoader color={color} loading={loading} css={override} size={100} style={{ 'height': '300px' }} /></div>
   return (
     <Fragment>
       <Grid container spacing={4}>
@@ -89,9 +75,9 @@ export default function LivePreviewExample() {
               <div className="d-flex align-items-start">
                 <div className="font-weight-bold">
                   <small className="text-white-50 d-block mb-1 text-uppercase">
-                    Total Appointments
+                    Total Amount
                   </small>
-                  <span className="font-size-xxl mt-1">586,356</span>
+                  <span className="font-size-xxl mt-1">{revenue}</span>
                 </div>
                 <div className="ml-auto">
                   <div className="bg-white text-center text-success d-50 rounded-circle d-flex align-items-center justify-content-center">
@@ -102,14 +88,6 @@ export default function LivePreviewExample() {
                   </div>
                 </div>
               </div>
-              <div className="mt-3">
-                <FontAwesomeIcon
-                  icon={['fas', 'arrow-up']}
-                  className="text-success mr-1"
-                />
-                <span className="text-success pr-1">15.4%</span>
-                <span className="text-white-50">increase this month</span>
-              </div>
             </CardContent>
           </Card>
         </Grid>
@@ -119,9 +97,9 @@ export default function LivePreviewExample() {
               <div className="d-flex align-items-start">
                 <div className="font-weight-bold">
                   <small className="text-white-50 d-block mb-1 text-uppercase">
-                    Total Students
+                    Total Tickets
                   </small>
-                  <span className="font-size-xxl mt-1">23,274</span>
+                  <span className="font-size-xxl mt-1">{tickets}</span>
                 </div>
                 <div className="ml-auto">
                   <div className="bg-white text-center text-primary d-50 rounded-circle d-flex align-items-center justify-content-center">
@@ -132,14 +110,6 @@ export default function LivePreviewExample() {
                   </div>
                 </div>
               </div>
-              <div className="mt-3">
-                <FontAwesomeIcon
-                  icon={['fas', 'arrow-up']}
-                  className="text-warning mr-1"
-                />
-                <span className="text-warning pr-1">7.4%</span>
-                <span className="text-white-50">same as before</span>
-              </div>
             </CardContent>
           </Card>
         </Grid>
@@ -149,9 +119,9 @@ export default function LivePreviewExample() {
               <div className="d-flex align-items-start">
                 <div className="font-weight-bold">
                   <small className="text-white-50 d-block mb-1 text-uppercase">
-                    Total Instructors
+                    Total Airlines
                   </small>
-                  <span className="font-size-xxl mt-1">345</span>
+                  <span className="font-size-xxl mt-1">5</span>
                 </div>
                 <div className="ml-auto">
                   <div className="bg-white text-center text-primary d-50 rounded-circle d-flex align-items-center justify-content-center">
@@ -162,24 +132,16 @@ export default function LivePreviewExample() {
                   </div>
                 </div>
               </div>
-              <div className="mt-3">
-                <FontAwesomeIcon
-                  icon={['fas', 'arrow-down']}
-                  className="text-white mr-1"
-                />
-                <span className="text-white px-1">1.4%</span>
-                <span className="text-white-50">less instructors</span>
-              </div>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
       <Grid container spacing={4}>
-        <Grid item xs={12} lg={6}>
+        <Grid item xs={12} lg={4}>
           <Card className="card-box mb-4">
             <CardContent className="p-0">
               <Grid container spacing={4} className="mt-4">
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={12}>
                   <div className="text-center">
                     <div>
                       <FontAwesomeIcon
@@ -188,12 +150,12 @@ export default function LivePreviewExample() {
                       />
                     </div>
                     <div className="mt-3 line-height-sm">
-                      <b className="font-size-lg">2,345</b>
-                      <span className="text-black-50 d-block">Students</span>
+                      <b className="font-size-lg">{customerLength}</b>
+                      <span className="text-black-50 d-block">Customers</span>
                     </div>
                   </div>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                {/* <Grid item xs={12} sm={4}>
                   <div className="text-center">
                     <div>
                       <FontAwesomeIcon
@@ -220,19 +182,19 @@ export default function LivePreviewExample() {
                       <span className="text-black-50 d-block">Revenue</span>
                     </div>
                   </div>
-                </Grid>
+                </Grid> */}
               </Grid>
               <div className="divider mt-4" />
               <div className="text-center py-4">
-                <Button size="small" color="primary">
-                  <span className="btn-wrapper--icon">
-                    <FontAwesomeIcon icon={['far', 'eye']} />
-                  </span>
-                  <span className="btn-wrapper--label">Generate reports</span>
+                <Button variant="outlined" size="small" color="primary" className='mr-2' onClick={() => history.push('/addcustomer')}>
+                  <span className="btn-wrapper--label">Add Customer</span>
+                </Button>
+                <Button variant="outlined" size="small" color="primary" onClick={() => history.push('/customer')}>
+                  <span className="btn-wrapper--label">Customer History</span>
                 </Button>
               </div>
             </CardContent>
-            <div className="card-footer bg-light text-center">
+            {/* <div className="card-footer bg-light text-center">
               <div className="pt-4 pr-4 pl-4">
                 <Chart
                   options={chart30Options}
@@ -241,82 +203,7 @@ export default function LivePreviewExample() {
                   height={100}
                 />
               </div>
-            </div>
-          </Card>
-        </Grid>
-        <Grid item xs={12} lg={6}>
-          <Card className="card-box mb-4">
-            <div className="card-body pb-1">
-              <Grid container spacing={4}>
-                <Grid item xs={12} sm={4}>
-                  <div className="text-center">
-                    <div>
-                      <FontAwesomeIcon
-                        icon={['far', 'user']}
-                        className="font-size-xxl text-success"
-                      />
-                    </div>
-                    <div className="mt-3 line-height-sm">
-                      <b className="font-size-lg">45</b>
-                      <span className="text-black-50 d-block">Students</span>
-                    </div>
-                  </div>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <div className="text-center">
-                    <div>
-                      <FontAwesomeIcon
-                        icon={['far', 'keyboard']}
-                        className="font-size-xxl text-danger"
-                      />
-                    </div>
-                    <div className="mt-3 line-height-sm">
-                      <b className="font-size-lg">568</b>
-                      <span className="text-black-50 d-block">Appointments</span>
-                    </div>
-                  </div>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <div className="text-center">
-                    <div>
-                      <FontAwesomeIcon
-                        icon={['far', 'chart-bar']}
-                        className="font-size-xxl text-info"
-                      />
-                    </div>
-                    <div className="mt-3 line-height-sm">
-                      <b className="font-size-lg">$3,693</b>
-                      <span className="text-black-50 d-block">Revenue</span>
-                    </div>
-                  </div>
-                </Grid>
-              </Grid>
-              <div className="pt-4 pr-4 pl-4">
-                <Chart
-                  options={chart31Options}
-                  series={chart31Data}
-                  type="line"
-                  height={100}
-                />
-              </div>
-            </div>
-            <Divider />
-            <div className="my-2 text-center">
-              <FontAwesomeIcon
-                icon={['fas', 'arrow-up']}
-                className="text-danger"
-              />
-              <span className="text-danger px-1">15.4%</span>
-              <span className="text-black-50">new sales today</span>
-            </div>
-            <div className="card-footer bg-light p-4 text-center">
-              <Button color="primary" variant="contained">
-                <span className="btn-wrapper--icon">
-                  <FontAwesomeIcon icon={['far', 'eye']} />
-                </span>
-                <span className="btn-wrapper--label">View latest sales</span>
-              </Button>
-            </div>
+            </div> */}
           </Card>
         </Grid>
       </Grid>

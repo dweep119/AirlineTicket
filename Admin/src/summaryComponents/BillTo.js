@@ -123,7 +123,7 @@ const BillTo = ({ invoice, today }) => (
     <View style={styles.headerContainer}>
       <div style={invoice.customer_airline === 'SpiceJet' ? styles.to_invoice_bg_red : invoice.customer_airline === 'AirAsia' ? styles.to_invoice_bg_red :
         invoice.customer_airline === 'Vistara' ? styles.to_invoice_bg_yellow : styles.to_invoice_bg_blue}>
-        <Text style={styles.billTo}>{"Name: "} {invoice.customer_name}</Text>
+        <Text>{"Name: "} {invoice.customer_name}</Text>
         <Text>{"Mobile: "} {invoice.customer_mobile}</Text>
         <Text>{"Email: "}{invoice.customer_email}</Text>
         <Text>{"Airlines: "}{invoice.customer_airline}</Text>

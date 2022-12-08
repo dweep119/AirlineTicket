@@ -17,6 +17,7 @@ import {
   Box,
   Paper
 } from '@material-ui/core';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import { useTheme } from '@material-ui/core/styles';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
@@ -129,7 +130,7 @@ export default function Customer() {
   }, []);
 
   const callAPI = () => {
-    fetch('http://localhost:1337/api/airline-tickets').then(response => response.json())
+    fetch('https://api.prathamtour.com/api/airline-tickets?populate=*').then(response => response.json())
       .then(data => {
         console.log('data: ', data);
         setCustomer(data['data']);
@@ -165,7 +166,7 @@ export default function Customer() {
       const requestOptions = {
         method: 'DELETE',
       };
-      fetch(`http://localhost:1337/api/airline-tickets/${selectedId}`, requestOptions).then(response => response.json())
+      fetch(`https://api.prathamtour.com/api/airline-tickets/${selectedId}`, requestOptions).then(response => response.json())
         .then(data => {
          
           if (data.status) {
@@ -205,10 +206,11 @@ export default function Customer() {
               <TableCell >Depature Date</TableCell>
               <TableCell >Depature Time</TableCell>
               <TableCell >To</TableCell>
-              <TableCell >Arrival Date</TableCell>
-              <TableCell >Arrival Time</TableCell>
+              {/* <TableCell >Arrival Date</TableCell>
+              <TableCell >Arrival Time</TableCell> */}
               <TableCell >Flight No.</TableCell>
               <TableCell >Flight Fare</TableCell>
+              <TableCell >Ticket</TableCell>
               <TableCell >Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -225,10 +227,21 @@ export default function Customer() {
                 <TableCell>{row.attributes.depDate}</TableCell>
                 <TableCell>{row.attributes.depTime}</TableCell>
                 <TableCell>{row.attributes.to}</TableCell>
-                <TableCell>{row.attributes.arrDate}</TableCell>
-                <TableCell>{row.attributes.arrTime}</TableCell>
+                {/* <TableCell>{row.attributes.arrDate}</TableCell>
+                <TableCell>{row.attributes.arrTime}</TableCell> */}
+                {/* <TableCell>{row.attributes.ticketFile.data.attributes.url}</TableCell> */}
                 <TableCell>{row.attributes.flightNo}</TableCell>
                 <TableCell>{row.attributes.flightFare}</TableCell>
+                <TableCell style={{ cursor: 'pointer' }}>
+                  <PictureAsPdfIcon
+                    onClick={() =>
+                      window.open(
+                        `https://api.prathamtour.com${row.attributes.ticketFile.data.attributes.url}`,
+                        '_blank'
+                      )
+                    }
+                  />
+                </TableCell>
                 <TableCell>
                   <Box>
                     <div className='d-flex'>

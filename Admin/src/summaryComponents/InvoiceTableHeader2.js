@@ -6,13 +6,14 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         borderBottomColor: '#71706E',
-        backgroundColor: 'white',
+        backgroundColor: '#000000',
         borderBottomWidth: 1,
         alignItems: 'center',
         height: 20,
         textAlign: 'center',
         fontStyle: 'bold',
         flexGrow: 1,
+        color: '#FFFFFF',
     },
     travelDate: {
         width: '15%',

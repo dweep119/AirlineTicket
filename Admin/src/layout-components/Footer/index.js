@@ -22,11 +22,11 @@ const Footer = props => {
             <span></span>
             © 2022 - developed with <span className="text-danger px-1">❤</span> by{' '}
             <a
-              href="https://skillcodehub.com"
+              href="https://rmedia.tech/"
               rel="noopener noreferrer"
               target="_blank"
-              title="SKILLCODE HUB">
-              SKILLCODE HUB
+              title="R Media">
+              R Media
             </a>
           </div>
         </div>
