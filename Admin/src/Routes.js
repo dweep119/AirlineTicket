@@ -87,12 +87,11 @@ const Routes = () => {
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { token } = useToken();
-  console.log('token: ', token);
   return (
     <Route
       {...rest}
       render={props => {
-        return token.jwt ?
+        return token?.jwt ?
           props.match.path === "/" ?
             <Redirect
               to={{

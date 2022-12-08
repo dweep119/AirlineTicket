@@ -56,7 +56,7 @@ function Login(props) {
     const [showPassword, setshowPassword] = React.useState(false);
 
     const handleSubmit = async e => {
-        e.preventDefault();
+        // e.preventDefault();
         const token = await loginUser({
             "identifier": userName,
             "password": password
@@ -123,6 +123,11 @@ function Login(props) {
                                         </IconButton>
                                     </InputAdornment>
                                 }
+                                onKeyPress={(e) => {
+                                    if (e.key === "Enter") {
+                                        handleSubmit();
+                                    }
+                                }}
                                 labelWidth={70}
                             />
                         </FormControl>
